@@ -14,7 +14,7 @@ class Email {
       return false;
 
     const [username, domain] = email.split('@');
-    if(username.length > 64)
+    if(username.length > 64 || domain.length > 255)
       return false;
 
     return true;
