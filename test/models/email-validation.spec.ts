@@ -15,4 +15,9 @@ describe('Email validation', () => {
     expect(Email.validate(username.repeat(65) + '@email.com')).toBeFalsy();
   });
 
+  test('domain size should not be greater than 255 chars', () => {
+    let domain = 'a'.repeat(256);
+    expect(Email.validate('username@' + domain)).toBeFalsy();
+  });
+
 })
