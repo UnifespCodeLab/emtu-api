@@ -12,6 +12,10 @@ class Email {
       return false;
     }
 
+    if(email.length > 320) {
+      return false;
+    }
+
     return true;
   }
 }
