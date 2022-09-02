@@ -7,14 +7,15 @@ class Email {
   }
 
   public static validate(email: string): boolean {
-    console.log(email);
-    if(!email){
+    if(!email)
       return false;
-    }
 
-    if(email.length > 320) {
+    if(email.length > 320) 
       return false;
-    }
+
+    const [username, domain] = email.split('@');
+    if(username.length > 64)
+      return false;
 
     return true;
   }
