@@ -10,6 +10,10 @@ describe('Email validation', () => {
     expect(Email.validate(address.repeat(310) + '@emails.com')).toBeFalsy();
   });
 
+  test('should have @', () => {
+    expect(Email.validate('email.domain.com')).toBeFalsy();
+  });
+
   test('should have username size limited to 64 chars', () => {
     let username = 'a';
     expect(Email.validate(username.repeat(65) + '@email.com')).toBeFalsy();
