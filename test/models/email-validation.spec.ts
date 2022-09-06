@@ -32,8 +32,11 @@ describe('Email validation', () => {
     expect(Email.validate('username@' + domain)).toBeFalsy();
   });
 
-  test('should not have multiples @', () => {
+  test('should not have multiple @', () => {
     expect(Email.validate('test@email@domain.com')).toBeFalsy();
   });
 
+  test('should not accept multiple dots in username', () => {
+    expect(Email.validate('invalid..example@email.com')).toBeFalsy();
+  });
 })
