@@ -6,7 +6,7 @@
   "scripts": {
     "start": "sls offline start",
     "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/index.ts",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@middy/core": "^2.2.0",
