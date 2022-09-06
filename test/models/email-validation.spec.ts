@@ -43,4 +43,8 @@ describe('Email validation', () => {
   test('should not accept multiple dots in domain', () => {
     expect(Email.validate('invalid@..email.com')).toBeFalsy();
   });
+
+  test('should accept a valid email address', () => {
+    expect(Email.validate('valid.email@test.com')).toBeTruthy();
+  }); 
 })
