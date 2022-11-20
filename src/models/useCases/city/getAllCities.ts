@@ -1,6 +1,6 @@
 import { CityDto } from "../../../dtos/cityDto";
 import { ICityRepository } from "../../repositories/ICityRepository";
-import { IGetAllCities } from "./IGetAllCities";
+import { IGetAllCities } from "./interfaces/IGetAllCities";
 
 export class GetAllCitiesUseCase implements IGetAllCities{
   cityRepository: ICityRepository;
