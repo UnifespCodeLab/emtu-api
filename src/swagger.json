@@ -1,0 +1,86 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "EMTU-API Documentation",
+    "description": "EMTU-API.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": ["Main"],
+        "summary": "Verifica se o servidor está rodando",
+        "description": "Verifica se o servidor está rodando",
+        "responses": {
+          "200": {
+            "description":"EMTU-API",
+            "content": {
+              "application/json": {
+                  "item": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      }
+                    }
+                  }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/city": {
+      "get": {
+        "tags": ["City"],
+        "summary": "Cidades EMTU",
+        "description": "Retorna as cidades que possuem linha de ônibus",
+        "responses": {
+          "200": {
+            "description":"Lista de cidades",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "example" : {
+                    "id": 1,
+                    "name": "Jacareí"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description":"Falha ao obter dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensagem": {
+                      "type": "string"
+                    }
+                  },
+                  "example" : {
+                    "mensagem": "Erro ao obter dados"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
