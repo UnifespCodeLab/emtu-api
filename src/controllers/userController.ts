@@ -14,7 +14,7 @@ export default class UserController {
 
       if(!(name && email && password)){
         return res.status(400).send({
-          mensagem:"Parâmetros inválidos"
+          erro:"Parâmetros inválidos"
         });
       }
 
@@ -22,7 +22,7 @@ export default class UserController {
 
       if(userExists){
         return res.status(409).send({
-          mensagem:"Usuário já existe"
+          erro:"Usuário já existe"
         });
       }
 
@@ -30,23 +30,20 @@ export default class UserController {
 
       const user = new User(name, email, encryptedPassword);
 
-      const id = await userDataSource.create(user);
+      const userData = await userDataSource.create(user);
 
-      const token = jwt.sign({userId: id, ...user}, 
+      const token = jwt.sign(userData, 
         process.env.JWT_SECRET_KEY,
         {
           expiresIn: "2h",
         });
 
       res.status(201).json({
-        name: user.name, 
-        email: user.email,
-        password: user.password,
         token: token
       });
     } catch (error) {
       return res.status(500).send({
-        mensagem:"Falha ao cadastrar usuário"
+        erro:"Falha ao cadastrar usuário"
       });
     }
   }

@@ -17,8 +17,8 @@ export class PostgresUserDataSource implements IUserDataSource {
   }
 
   async create(user : User) : Promise<QueryResult> {
-    const id = await this.dataBase.query(`INSERT INTO users(name, email, password) VALUES ('${user.name}', '${user.email}', '${user.password}') RETURNING *`);
-    return id;
+    const data = await this.dataBase.query(`INSERT INTO users(name, email, password) VALUES ('${user.name}', '${user.email}', '${user.password}') RETURNING *`);
+    return data.rows[0];
   };
   
   private static mapResultToModel = (result: QueryResult<UserDto>): User[] => result.rows.map(

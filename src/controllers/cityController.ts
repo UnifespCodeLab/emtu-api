@@ -14,7 +14,7 @@ export default class cityController {
       const cities = await getAllCitiesUseCase.execute();
       return res.status(200).send(cities);
     } catch (error) {
-      return res.status(500).send({ mensagem: "Erro ao obter dados" });
+      return res.status(500).send({ erro: "Erro ao obter dados" });
     }
   };
 

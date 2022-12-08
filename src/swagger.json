@@ -72,12 +72,12 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "mensagem": {
+                    "erro": {
                       "type": "string"
                     }
                   },
                   "example": {
-                    "mensagem": "Erro ao obter dados"
+                    "erro": "Erro ao obter dados"
                   }
                 }
               }
@@ -156,12 +156,12 @@
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "mensagem": {
+                      "erro": {
                         "type": "string"
                       }
                     },
                     "example": {
-                      "mensagem": "Erro ao obter dados"
+                      "erro": "Erro ao obter dados"
                     }
                   }
                 }
@@ -174,12 +174,12 @@
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "mensagem": {
+                      "erro": {
                         "type": "string"
                       }
                     },
                     "example": {
-                      "mensagem": "Parâmetros inválidos"
+                      "erro": "Parâmetros inválidos"
                     }
                   }
                 }
@@ -192,12 +192,12 @@
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "mensagem": {
+                      "erro": {
                         "type": "string"
                       }
                     },
                     "example": {
-                      "mensagem": "Usuário já existe"
+                      "erro": "Usuário já existe"
                     }
                   }
                 }
