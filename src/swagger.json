@@ -8,25 +8,27 @@
   "paths": {
     "/": {
       "get": {
-        "tags": ["Main"],
+        "tags": [
+          "Main"
+        ],
         "summary": "Verifica se o servidor está rodando",
         "description": "Verifica se o servidor está rodando",
         "responses": {
           "200": {
-            "description":"EMTU-API",
+            "description": "EMTU-API",
             "content": {
               "application/json": {
-                  "item": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      }
+                "item": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
                     }
                   }
+                }
               }
             }
           }
@@ -35,12 +37,14 @@
     },
     "/city": {
       "get": {
-        "tags": ["City"],
+        "tags": [
+          "City"
+        ],
         "summary": "Cidades EMTU",
         "description": "Retorna as cidades que possuem linha de ônibus",
         "responses": {
           "200": {
-            "description":"Lista de cidades",
+            "description": "Lista de cidades",
             "content": {
               "application/json": {
                 "schema": {
@@ -53,7 +57,7 @@
                       "type": "string"
                     }
                   },
-                  "example" : {
+                  "example": {
                     "id": 1,
                     "name": "Jacareí"
                   }
@@ -62,7 +66,7 @@
             }
           },
           "500": {
-            "description":"Falha ao obter dados",
+            "description": "Falha ao obter dados",
             "content": {
               "application/json": {
                 "schema": {
@@ -72,8 +76,129 @@
                       "type": "string"
                     }
                   },
-                  "example" : {
+                  "example": {
                     "mensagem": "Erro ao obter dados"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Rota de usuários",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "José",
+                  "email": "jose.email@email.com",
+                  "password": "senha@123"
+                }
+              }
+            }
+          }
+        },
+          "responses": {
+            "200": {
+              "description": "Cadastra usuário",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "password": {
+                        "type": "string"
+                      },
+                      "token": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "name": "José",
+                      "email": "jose.email@email.com",
+                      "password": "senhaCriptografada",
+                      "token": "usertoken"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Falha ao cadastrar usuário",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "mensagem": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "mensagem": "Erro ao obter dados"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Parâmetros inválidos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "mensagem": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "mensagem": "Parâmetros inválidos"
+                    }
+                  }
+                }
+              }
+            },
+            "409": {
+              "description": "Usuário já existe",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "mensagem": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "mensagem": "Usuário já existe"
+                    }
                   }
                 }
               }
@@ -83,4 +208,3 @@
       }
     }
   }
-}
