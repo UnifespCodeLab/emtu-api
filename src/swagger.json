@@ -126,24 +126,12 @@
                   "schema": {
                     "type": "object",
                     "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "email": {
-                        "type": "string"
-                      },
-                      "password": {
-                        "type": "string"
-                      },
                       "token": {
                         "type": "string"
                       }
                     },
                     "example": {
-                      "name": "José",
-                      "email": "jose.email@email.com",
-                      "password": "senhaCriptografada",
-                      "token": "usertoken"
+                      "token": "JWTtoken"
                     }
                   }
                 }
@@ -161,7 +149,7 @@
                       }
                     },
                     "example": {
-                      "erro": "Erro ao obter dados"
+                      "erro": "Falha ao cadastrar usuário"
                     }
                   }
                 }
@@ -205,6 +193,110 @@
             }
           }
         }
-      }
+      },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Rota de login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "jose.email@email.com",
+                  "password": "senha@123"
+                }
+              }
+            }
+          }
+        },
+          "responses": {
+            "200": {
+              "description": "Efetua o login do usuário",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "token": "JWTtoken"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Falha ao efetuar o login do usuário",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "erro": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "erro": "Falha ao efetuar o login do usuário"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Parâmetros inválidos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "erro": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "erro": "Parâmetros inválidos"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Não foram enviados todos os parâmetros obrigatórios",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "erro": {
+                        "type": "string"
+                      }
+                    },
+                    "example": {
+                      "erro": "Não foram enviados todos os parâmetros obrigatórios"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }  
     }
   }
