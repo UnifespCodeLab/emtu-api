@@ -13,15 +13,17 @@ export class PostgresUserDataSource implements IUserDataSource {
 
   async getByEmail(email: string): Promise<User> {
     const result = await this.dataBase.query(`SELECT * FROM users u WHERE u.email = '${email}';`);
-    return PostgresUserDataSource.mapResultToModel(result)[0];
+    return result && result.rowCount > 0 ? PostgresUserDataSource.mapResultToModel(result)[0] : null;
   }
 
-  async create(user : User) : Promise<QueryResult> {
+  async create(user : User) : Promise<QueryResult<User>> {
     const data = await this.dataBase.query(`INSERT INTO users(name, email, password) VALUES ('${user.name}', '${user.email}', '${user.password}') RETURNING *`);
-    return data.rows[0];
+    return data && data.rowCount > 0 ? data.rows[0] : null;
   };
   
-  private static mapResultToModel = (result: QueryResult<UserDto>): User[] => result.rows.map(
-    (row) => (new User(row.name, row.email, row.password))
-  );
+  private static mapResultToModel = (result: QueryResult<UserDto>): User[] => {
+    return result ? result.rows.map(
+      (row) => (new User(row.name, row.email, row.password))
+    ) : null;
+  }
 } 
