@@ -81,6 +81,101 @@
           }
         }
       }
+    },
+    "/cids": {
+      "get": {
+        "tags": ["Cids"],
+        "summary": "Cids e seus campos",
+        "description": "Retorna todos os cids com seus respectivos códigos e descrições para classificar passageiros",
+        "responses": {
+          "200": {
+            "description":"Lista de cids",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "cod": {
+                      "type": "string"
+                    },
+                    "diagnostic": {
+                      "type": "string"
+                    },
+                    "observations": {
+                      "type": "string"
+                    },
+                    "companion": {
+                      "type": "string"
+                    },
+                    "duration": {
+                      "type": "number"
+                    },
+                    "requirements": {
+                      "type": "string"
+                    },
+                    "group": {
+                      "type": "string"
+                    }
+                  },
+                  "example" : [
+                    {
+                      "id": 1,
+                      "cod": "B20.0",
+                      "diagnostic": "Doença pelo HIV resultando em infecções microbacterianas (resultando em tuberculose)",
+                      "observations": "",
+                      "companion": "Não",
+                      "duration": 1,
+                      "requirements": "Relatório Médico com CID +\nteste de Tuberculose + receitas (se tiver teste HIV + )",
+                      "group": "G3"
+                    },
+                    {
+                      "id": 2,
+                      "cod": "B20.1",
+                      "diagnostic": "Doença pelo HIV resultando em outras infecções bacterianas",
+                      "observations": "Somente com doença oportunista: A15 até A19;B58 e B59;J13 até J18 e J65;C46",
+                      "companion": "Não",
+                      "duration": 1,
+                      "requirements": "Relatório Médico com CID e\ndescrição das oportunistas atuais (se tiver teste HIV + infecções )",
+                      "group": "G3"
+                    },
+                    {
+                      "id": 3,
+                      "cod": "B20.2",
+                      "diagnostic": "Doença pelo HIV resultando em doença citomegálica",
+                      "observations": "Somente com doença oportunista: A15 até A19;B58 e B59;J13 até J18 e J65; C46.",
+                      "companion": "Não\nObs: Casos com amaurose bilateral\nOU grave deficiência visual é com acompanhante",
+                      "duration": 1,
+                      "requirements": "Relatório Médico com CID e descrição das oportunistas atuais (se tiver teste HIV +)",
+                      "group": "G3"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description":"Falha ao obter dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mensagem": {
+                      "type": "string"
+                    }
+                  },
+                  "example" : {
+                    "mensagem": "Erro ao obter cids"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
