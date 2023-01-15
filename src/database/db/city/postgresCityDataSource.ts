@@ -15,5 +15,5 @@ export class PostgresCityDataSource implements cityDataSource {
     return PostgresCityDataSource.mapResultToModel(result);
   }
   
-  private static mapResultToModel = (result: QueryResult): CityDto[] => result.rows.map((row) => ({ id: row.city_id, name: row.city_name}))
+  private static mapResultToModel = (result: QueryResult): CityDto[] => result.rows.map((row) => ({ id: row.id, name: row.name}))
 } 
