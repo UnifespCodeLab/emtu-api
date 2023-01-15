@@ -16,8 +16,6 @@ export class PostgresCidsDataSource implements cidsDataSource {
   }
 
   private static mapResultToModel = (result: QueryResult): CidsDto[] => result.rows.map((row) => {
-    console.log(row);
-
     return(
       {
         id: row.id,
