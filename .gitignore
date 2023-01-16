@@ -17,3 +17,5 @@ coverage
 # Dotenv
 !.env.example
 .env*
+
+dist/*
