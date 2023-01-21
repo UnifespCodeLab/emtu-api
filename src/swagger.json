@@ -8,25 +8,27 @@
   "paths": {
     "/": {
       "get": {
-        "tags": ["Main"],
+        "tags": [
+          "Main"
+        ],
         "summary": "Verifica se o servidor está rodando",
         "description": "Verifica se o servidor está rodando",
         "responses": {
           "200": {
-            "description":"EMTU-API",
+            "description": "EMTU-API",
             "content": {
               "application/json": {
-                  "item": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      },
-                      "description": {
-                        "type": "string"
-                      }
+                "item": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
                     }
                   }
+                }
               }
             }
           }
@@ -35,12 +37,14 @@
     },
     "/city": {
       "get": {
-        "tags": ["City"],
+        "tags": [
+          "City"
+        ],
         "summary": "Cidades EMTU",
         "description": "Retorna as cidades que possuem linha de ônibus",
         "responses": {
           "200": {
-            "description":"Lista de cidades",
+            "description": "Lista de cidades",
             "content": {
               "application/json": {
                 "schema": {
@@ -53,7 +57,7 @@
                       "type": "string"
                     }
                   },
-                  "example" : {
+                  "example": {
                     "id": 1,
                     "name": "Jacareí"
                   }
@@ -62,18 +66,230 @@
             }
           },
           "500": {
-            "description":"Falha ao obter dados",
+            "description": "Falha ao obter dados",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "mensagem": {
+                    "erro": {
                       "type": "string"
                     }
                   },
-                  "example" : {
-                    "mensagem": "Erro ao obter dados"
+                  "example": {
+                    "erro": "Erro ao obter dados"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/register": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Rota de usuários",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "José",
+                  "email": "jose.email@email.com",
+                  "password": "senha@123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cadastra usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "token": "JWTtoken"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha ao cadastrar usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "erro": "Falha ao cadastrar usuário"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parâmetros inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "erro": "Parâmetros inválidos"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Usuário já existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "erro": "Usuário já existe"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Rota de login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "email": "jose.email@email.com",
+                  "password": "senha@123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Efetua o login do usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "token": "JWTtoken"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha ao efetuar o login do usuário",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "erro": "Falha ao efetuar o login do usuário"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parâmetros inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "erro": "Parâmetros inválidos"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Não foram enviados todos os parâmetros obrigatórios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "erro": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "erro": "Não foram enviados todos os parâmetros obrigatórios"
                   }
                 }
               }
@@ -84,12 +300,14 @@
     },
     "/cids": {
       "get": {
-        "tags": ["Cids"],
+        "tags": [
+          "Cids"
+        ],
         "summary": "Cids e seus campos",
         "description": "Retorna todos os cids com seus respectivos códigos e descrições para classificar passageiros",
         "responses": {
           "200": {
-            "description":"Lista de cids",
+            "description": "Lista de cids",
             "content": {
               "application/json": {
                 "schema": {
@@ -120,7 +338,7 @@
                       "type": "string"
                     }
                   },
-                  "example" : [
+                  "example": [
                     {
                       "id": 1,
                       "cod": "B20.0",
@@ -157,7 +375,7 @@
             }
           },
           "500": {
-            "description":"Falha ao obter dados",
+            "description": "Falha ao obter dados",
             "content": {
               "application/json": {
                 "schema": {
@@ -167,7 +385,7 @@
                       "type": "string"
                     }
                   },
-                  "example" : {
+                  "example": {
                     "mensagem": "Erro ao obter cids"
                   }
                 }
