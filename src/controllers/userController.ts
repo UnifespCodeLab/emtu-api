@@ -61,8 +61,8 @@ export default class UserController {
       }
 
       const user  = await userDataSource.getByEmail(email);
-      const isPasswordValid = user ? 
-        await passwordEncrypter.isValid(password, user.password) 
+      const isPasswordValid = user ?
+        await passwordEncrypter.isValid(password, user.password)
         : null;
 
       if(!user || !isPasswordValid) {
@@ -70,7 +70,7 @@ export default class UserController {
           erro:"Parâmetros inválidos"
         });
       };
-      
+
       const userData = {
         "name": user.name,
         "email": user.email,
@@ -82,7 +82,7 @@ export default class UserController {
       return res.status(201).json({
         token: token
       });
-      
+
     } catch (error) {
       return res.status(500).send({
         erro:"Falha ao efetuar o login do usuário"
