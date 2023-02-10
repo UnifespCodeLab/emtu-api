@@ -1,4 +1,5 @@
 import { PostgresCityDataSource } from "../database/db/city/postgresCityDataSource";
+import City from "../models/city";
 import CityRepository from "../models/repositories/implementations/CityRepository";
 import { GetAllCitiesUseCase } from "../models/useCases/city/getAllCities";
 import { Request, Response } from "express";
@@ -17,6 +18,10 @@ export default class cityController {
       return res.status(500).send({ erro: "Erro ao obter dados" });
     }
   };
+
+  public static async getCityById(req: Request, res: Response){
+    return res.status(400).send();
+  }
 
 }
 
