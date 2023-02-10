@@ -20,7 +20,10 @@ export default class cityController {
   };
 
   public static async getCityById(req: Request, res: Response){
-    return res.status(400).send();
+    if(!req.params.idCity || parseInt(req.params.idCity) <= 0)
+      return res.status(400).send();
+    
+    return res.status(200).send();
   }
 
 }
