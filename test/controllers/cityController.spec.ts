@@ -1,6 +1,6 @@
 import request from 'supertest';
-import cityController from "../../src/controllers/cityController";
 import express from "express";
+import cityController from './../../src/controllers/cityController';
 
 const cityRoutes = express();
 
@@ -23,4 +23,14 @@ describe("get city by id", () => {
     expect(res.statusCode).toBe(200);
   });
 
+  test("should return City when passing an valid id", async() => {
+    const res = await request(cityRoutes).get('/1');
+    expect(JSON.parse(res.text).city.id).toBe(1);
+    expect(JSON.parse(res.text).city.name).toBe("Alambari");
+  });
+
+  test("should return 400 when passing an inexistent id", async () => {
+    const res = await request(cityRoutes).get('/50000');
+    expect(res.statusCode).toBe(400);
+  });
 });
