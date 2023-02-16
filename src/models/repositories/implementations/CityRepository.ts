@@ -14,4 +14,9 @@ export default class CityRepository implements ICityRepository {
     const cities = await this.cityDataSource.getAll();
     return cities;
   }
+
+  async getById(cityId: number) : Promise<CityDto> {
+    const city = await this.cityDataSource.getById(cityId);
+    return city;
+  }
 }
