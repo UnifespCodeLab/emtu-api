@@ -10,7 +10,7 @@ export class GetCityByIdUseCase implements IGetCityById {
 
   async execute(cityId: number): Promise<City> {
     const city = await this.cityRepository.getById(cityId);
-    if(city.id && city.name) {
+    if(city && city.id && city.name) {
       return new City(city.id, city.name);
     }
     return null
