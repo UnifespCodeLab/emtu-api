@@ -1,5 +1,4 @@
 import { PostgresCityDataSource } from "../database/db/city/postgresCityDataSource";
-import City from "../models/city";
 import CityRepository from "../models/repositories/implementations/CityRepository";
 import { GetAllCitiesUseCase } from "../models/useCases/city/getAllCities";
 import { Request, Response } from "express";
