@@ -1,8 +1,10 @@
 
 import BusRepository from './../../../src/models/repositories/implementations/BusRepository';
 import PostgresBusDataSource from './../../../src/database/db/bus/postgresBusDataSource';
+import AxiosBusExternal from '../../../src/external/axios/axiosBusExternal';
 const busDataSource = new PostgresBusDataSource();
-const busRepository = new BusRepository(busDataSource);
+const busExternal = new AxiosBusExternal();
+const busRepository = new BusRepository(busDataSource, busExternal);
 
 const expected = [
   {
