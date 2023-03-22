@@ -39,7 +39,8 @@ export default class busController {
 
       let routeIds = await getBusRoutesUseCase.execute(originCity.getName(), destinyCity.getName());
 
-      const lines = await getLineUsecase.execute(routeIds, new Date(data), new Date('1/1/1999 ' + hora));
+      const [day, month, year] = data.split('/');
+      const lines = await getLineUsecase.execute(routeIds, new Date(+year, +month - 1, +day), new Date('1/1/1999 ' + hora));
       return res.status(200).send(lines);
     } catch (error) {
       return res.status(500).send({erro: "Ocorreu um erro ao obter rota"});
