@@ -1,7 +1,7 @@
 
 export type busRouteDTO = {
-  origin_city: number,
-  destiny_city: number,
+  originCityId: number,
+  destinationCityId: number,
   cid: number,
   date: Date,
   hour: Date
