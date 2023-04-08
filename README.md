@@ -2,45 +2,45 @@
 
 Back-end da aplicação EMTU Acessível
 
-## Clonando o repositório
+## 1 - Clonando o repositório
 
 ```
 https://github.com/UnifespCodeLab/emtu-api.git
 ```
 
-## Requisitos
+## 2 - Requisitos
 
-### 1 - Obrigatórios
+### 2.1 - Obrigatórios
 
 - [yarn](https://yarnpkg.com/)
 - [git](https://git-scm.com/)
 
-### 2 - Opcionais
+### 2.2 - Opcionais
 
 - [docker](https://www.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/)
 - [postgres](https://www.postgresql.org/) (caso não for usar o docker)
 
-## Setup
+## 3 - Setup
 
-### Ambiente
+### 3.1 - Ambiente
 
 - Crie um novo arquivo `.env`
 - Copie o conteúdo do arquivo `.env.sample` para o `.env`
 
-### Subindo o banco de dados
+### 3.2 - Subindo o banco de dados
 
-#### Com docker
+#### 3.2.1 - Com docker
 
 - Abra o terminal na pasta do projeto e execute os seguintes comandos :
 
   - `docker compose up postgres`
 
-#### Sem docker
+#### 3.2.2 - Sem docker
 
 - instale o postgres13 em sua máquina e crie um banco com nome `postgres` e senha `1234`
 
-### Instalando dependências
+### 3.3 - Instalando dependências
 
 - Abra outro terminal e execute:
 
@@ -48,7 +48,7 @@ https://github.com/UnifespCodeLab/emtu-api.git
 
 - <b>Atenção</b>: No momento que estou escrevendo essa doc o yarn está nessa versão: `1.22.19` e o node `19.8.1`
 
-## Executando o projeto
+## 4 - Executando o projeto
 
 - Em um terminal aberto na pasta do projeto execute:
   - `yarn run dev`
@@ -57,8 +57,9 @@ https://github.com/UnifespCodeLab/emtu-api.git
 - Para acessar um rota de testes é possível acessar:
   - `http://localhost:3333/api-docs/`
 
-## Sobre o fluxo de desenvolvimento
+## 5 - Sobre o fluxo de desenvolvimento
 
+- (opcional) Dê uma olhada em como funcionam os [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
 - Vá até o board do github e encontre o [_emtu-api_](https://github.com/orgs/UnifespCodeLab/projects/5/views/1)
 - Encontre a issue desejada
 - Atribua a si mesmo
