@@ -13,6 +13,7 @@ https://github.com/UnifespCodeLab/emtu-api.git
 ### 1 - Obrigatórios
 
 - [yarn](https://yarnpkg.com/)
+- [git](https://git-scm.com/)
 
 ### 2 - Opcionais
 
@@ -55,3 +56,17 @@ https://github.com/UnifespCodeLab/emtu-api.git
   - `server is running on port 3333`
 - Para acessar um rota de testes é possível acessar:
   - `http://localhost:3333/api-docs/`
+
+## Sobre o fluxo de desenvolvimento
+
+- Vá até o board do github e encontre o [_emtu-api_](https://github.com/orgs/UnifespCodeLab/projects/5/views/1)
+- Encontre a issue desejada
+- Atribua a si mesmo
+- Mude para a coluna _In Progress_
+- Com o projeto já clonado em sua pasta desejada, crie uma branch baseada no que está fazendo. Por exemplo:
+  - `git checkout -b issue-10`
+- Uma boa prática é sempre deixar seus commits o mais '_atômicos_' possível
+- Quando todo o desenvolvimento estiver finalizado abra um [pull request](https://github.com/UnifespCodeLab/emtu-api/compare). Lembrando precisa ser nesse sentido: `base: main` <- `compare: issue-10`
+- Marque os revisores para que os mesmos recebam notificação e revisem o seu pr
+- Vincule a issue aberta com o seu pr
+- Corra pro abraço
