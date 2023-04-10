@@ -8,6 +8,10 @@ export default class CidsRepository implements ICidsRepository {
   constructor(cidsDataSource: ICidsDataSource) {
     this.cidsDataSource = cidsDataSource;
   }
+  
+  async getById(id: number): Promise<CidsDto> {
+    return await this.cidsDataSource.getById(id);
+  }
 
   async getAll() : Promise<CidsDto[]> {
     return await this.cidsDataSource.getAll();
