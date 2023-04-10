@@ -22,19 +22,23 @@ export default class GetLineUsecase implements IGetLine {
       const dayOfWeek = date.getDay();
       
       lineDetails.forEach((line) => {
-        lines.push({
-          code: line.codigo,
-          origin: line.cidade_origem,
-          destination: line.cidade_destino,
-          lineHours: this.getHours(dayOfWeek, line, hour),
-          accessibility: false
-        })
+        let hours = this.getHours(dayOfWeek, line, hour);
+        if(hours.length > 0){
+          lines.push({
+            code: line.codigo,
+            origin: line.cidade_origem,
+            destination: line.cidade_destino,
+            lineHours: hours,
+            prefix: line.prefixo,
+            vehicle: null,
+          })
+        }
 
       });
 
       return lines;
     } catch (error) {
-      console.log(error);
+      throw(error);
     }
   }
 
