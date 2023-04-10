@@ -7,8 +7,15 @@ export default class BusLine {
   horariosdiasuteis: Date[];
   horariossabados: Date[];
   horariosdomingosferiados: Date[];
+  prefixo: string[];
 
-  constructor(codigo: string,cidade_origem: string,cidade_destino: string,horarios: Date[],horariosdiasuteis: Date[],horariossabados: Date[],horariosdomingosferiados: Date[]){
+  constructor(codigo: string,cidade_origem: string,cidade_destino: string,
+    horarios: Date[],
+    horariosdiasuteis: Date[],
+    horariossabados: Date[],
+    horariosdomingosferiados: Date[],
+    prefixo: string[]
+    ){
     this.codigo = codigo;
     this.cidade_origem = cidade_origem;
     this.cidade_destino = cidade_destino;
@@ -16,6 +23,7 @@ export default class BusLine {
     this.horariosdiasuteis = horariosdiasuteis;
     this.horariossabados = horariossabados;
     this.horariosdomingosferiados = horariosdomingosferiados;
+    this.prefixo = prefixo;
   }
 
   static fromJson(obj: any): BusLine[]{
@@ -29,7 +37,8 @@ export default class BusLine {
         route.data.linhas[0].rotas[0].horariosdiasuteis.split(',').map(hour => new Date('1/1/1999 ' + hour)),
         route.data.linhas[0].rotas[0].horariossabados.split(',').map(hour => new Date('1/1/1999 ' + hour)),
         route.data.linhas[0].rotas[0].horariosdomingosferiados.split(',').map(hour => new Date('1/1/1999 ' + hour)),
-      );
+        route.data.linhas[0].veiculos.map(veiculo => veiculo.prefixo)
+        );
 
       lineDetails.push(busLine);
     });
