@@ -4,5 +4,6 @@ export type BusLineDto = {
   origin: string,
   destination: string,
   lineHours: Date[],
-  accessibility: boolean,
+  prefix: string[],
+  vehicle: Object,
 }
