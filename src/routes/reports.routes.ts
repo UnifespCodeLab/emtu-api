@@ -6,4 +6,3 @@ const reportsRoutes = Router();
 reportsRoutes.post("/", reportsController.create);
 
 export { reportsRoutes }
-
