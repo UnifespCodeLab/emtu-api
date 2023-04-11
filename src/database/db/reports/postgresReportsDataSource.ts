@@ -32,14 +32,16 @@ export class PostgresReportsDataSource implements IReportsDataSource {
   };
 
   async create(params: ReportsDto): Promise<Reports> {
+    const dataCriacao = new Date();
     const query = {
-      text: `INSERT INTO reports(email, id_cidade_origem, id_cidade_destino, id_cid)
-        VALUES ($1, $2, $3, $4) RETURNING *`,
+      text: `INSERT INTO reports(email, id_cidade_origem, id_cidade_destino, id_cid, data_criacao)
+        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       values: [
         params.email,
         params.idCidadeOrigem,
         params.idCidadeDestino,
         params.idCid,
+        dataCriacao
       ],
     };
 
