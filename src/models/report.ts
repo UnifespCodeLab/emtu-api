@@ -1,4 +1,4 @@
-export default class Reports {
+export default class Report {
   public readonly email: string;
   public readonly idCidadeOrigem: number;
   public readonly idCidadeDestino: number;

@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import { ReportsDto } from "../../../dtos/reportsDto";
-import Reports from "../../../models/reports";
+import Report from "../../../models/report";
 import IReportsDataSource from "../../interfaces/reportsDataSource";
 import PostgresDB from "../postgresDB";
 
@@ -31,7 +31,7 @@ export class PostgresReportsDataSource implements IReportsDataSource {
     return data.rowCount > 0;
   };
 
-  async create(params: ReportsDto): Promise<Reports> {
+  async create(params: ReportsDto): Promise<Report> {
     const dataCriacao = new Date();
     const query = {
       text: `INSERT INTO reports(email, id_cidade_origem, id_cidade_destino, id_cid, data_criacao)
