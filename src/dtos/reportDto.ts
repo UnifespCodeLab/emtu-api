@@ -1,4 +1,4 @@
-export type ReportsDto = {
+export type ReportDto = {
   dataCriacao?: Date,
   email: string,
   idCidadeOrigem: number,

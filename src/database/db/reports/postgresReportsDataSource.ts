@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { ReportsDto } from "../../../dtos/reportsDto";
+import { ReportDto } from "../../../dtos/reportDto";
 import Report from "../../../models/report";
 import IReportsDataSource from "../../interfaces/reportsDataSource";
 import PostgresDB from "../postgresDB";
@@ -11,7 +11,7 @@ export class PostgresReportsDataSource implements IReportsDataSource {
     this.dataBase = PostgresDB.getInstance();
   }
 
-  async exists(params: ReportsDto): Promise<boolean> {
+  async exists(params: ReportDto): Promise<boolean> {
     const query = {
       text: `SELECT * FROM reports
         WHERE email = $1
@@ -26,12 +26,12 @@ export class PostgresReportsDataSource implements IReportsDataSource {
       ],
     };
 
-    const data = await this.dataBase.query(query);
+    const { rowCount } = await this.dataBase.query(query);
 
-    return data.rowCount > 0;
+    return rowCount > 0;
   };
 
-  async create(params: ReportsDto): Promise<Report> {
+  async create(params: ReportDto): Promise<Report> {
     const dataCriacao = new Date();
     const query = {
       text: `INSERT INTO reports(email, id_cidade_origem, id_cidade_destino, id_cid, data_criacao)
