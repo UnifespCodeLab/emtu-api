@@ -1,5 +1,6 @@
 import { ReportDto } from '../../dtos/reportDto';
+import Report from '../../models/report';
 
 export default interface IReportsDataSource {
-  exists(params: ReportDto): Promise<boolean>;
+  create(params: ReportDto): Promise<Report>;
 }

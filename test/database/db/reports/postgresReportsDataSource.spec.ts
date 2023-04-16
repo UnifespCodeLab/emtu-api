@@ -1,104 +1,78 @@
 import { Pool } from "pg";
 import { PostgresReportsDataSource } from "../../../../src/database/db/reports/postgresReportsDataSource";
-import PostgresDB from "../../../../src/database/db/postgresDB";
 import { ReportDto } from "../../../../src/dtos/reportDto";
-import Report from "../../../../src/models/report";
+import { InvalidParamError } from "../../../../src/errors/invalidParamError";
+import PostgresDB from "../../../../src/database/db/postgresDB";
 
 describe('PostgresReportsDataSource', () => {
   let dataSource: PostgresReportsDataSource;
   let mockPool: jest.Mocked<Pool>;
 
-  const mockParams: ReportDto = {
-    email: 'elton@john.com',
-    idCidadeOrigem: 1,
-    idCidadeDestino: 2,
-    idCid: 3,
-  };
-
-  beforeAll(() => {
-    PostgresDB.getInstance = jest.fn(() => mockPool);
-  });
-
   beforeEach(() => {
-    mockPool = { query: jest.fn() } as unknown as jest.Mocked<Pool>;
-
+    mockPool = { query: jest.fn() } as any;
+    jest.spyOn(PostgresDB, 'getInstance').mockReturnValue(mockPool);
     dataSource = new PostgresReportsDataSource();
   });
 
-  describe('exists', () => {
-    it('should return true when report exists in database', async () => {
-      mockPool.query.mockResolvedValueOnce({ rowCount: 1 } as never);
-
-      const response = await dataSource.exists(mockParams);
-
-      expect(mockPool.query).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: expect.stringContaining('SELECT * FROM reports'),
-          values: [
-            mockParams.email,
-            mockParams.idCidadeOrigem,
-            mockParams.idCidadeDestino,
-            mockParams.idCid,
-          ],
-        })
-      );
-      expect(response).toBeTruthy();
-    });
-
-    it('should return false when report does not exist in database', async () => {
-      mockPool.query.mockResolvedValueOnce({ rowCount: 0 } as never);
-
-      const response = await dataSource.exists(mockParams);
-
-      expect(mockPool.query).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: expect.stringContaining('SELECT * FROM reports'),
-          values: [
-            mockParams.email,
-            mockParams.idCidadeOrigem,
-            mockParams.idCidadeDestino,
-            mockParams.idCid,
-          ],
-        })
-      );
-      expect(response).toBeFalsy();
-    });
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   describe('create', () => {
-    it('should return the created report', async () => {
-      const mockDate = new Date();
-      jest.spyOn(global, 'Date').mockImplementation(() => mockDate as unknown as string);
+    const params: ReportDto = {
+      email: 'test@test.com',
+      idCidadeOrigem: 1,
+      idCidadeDestino: 2,
+      idCid: 3,
+    };
 
-      const mockResult = {
-        rows: [
-          new Report(
-            mockParams.email,
-            mockParams.idCidadeOrigem,
-            mockParams.idCidadeDestino,
-            mockParams.idCid
-          ),
+    it('should validate params before creating report', async () => {
+      const invalidReportDto = { ...params, email: 'invalidEmail' };
+
+      await expect(dataSource.create(invalidReportDto)).rejects.toThrow(InvalidParamError);
+
+      expect(mockPool.query).not.toHaveBeenCalled();
+    });
+
+    it('should throw InvalidParamError if report with same params already exists', async () => {
+      mockPool.query.mockResolvedValueOnce({ rowCount: 1 } as never);
+
+      await expect(dataSource.create(params)).rejects.toThrow(InvalidParamError);
+
+      expect(mockPool.query).toHaveBeenCalledTimes(1);
+      expect(mockPool.query).toHaveBeenCalledWith({
+        text: expect.stringContaining('SELECT * FROM reports'),
+        values: [params.email, params.idCidadeOrigem, params.idCidadeDestino, params.idCid],
+      });
+    });
+
+    it('should insert new report if report with same params does not exist', async () => {
+      mockPool.query.mockResolvedValueOnce({ rowCount: 0 } as never);
+
+      const currentDate = new Date();
+      jest.spyOn(global, 'Date').mockImplementation(() => currentDate as any);
+
+      const expectedReport = { ...params, id: 1, dataCriacao: currentDate };
+      mockPool.query.mockResolvedValueOnce({ rows: [expectedReport] } as never);
+
+      const createdReport = await dataSource.create(params);
+
+      expect(createdReport).toEqual(expectedReport);
+      expect(mockPool.query).toHaveBeenCalledTimes(2);
+      expect(mockPool.query).toHaveBeenNthCalledWith(1, {
+        text: expect.stringContaining('SELECT * FROM reports'),
+        values: [params.email, params.idCidadeOrigem, params.idCidadeDestino, params.idCid],
+      });
+      expect(mockPool.query).toHaveBeenNthCalledWith(2, {
+        text: expect.stringContaining('INSERT INTO reports'),
+        values: [
+          params.email,
+          params.idCidadeOrigem,
+          params.idCidadeDestino,
+          params.idCid,
+          currentDate,
         ],
-      } as never;
-
-      mockPool.query.mockResolvedValueOnce(mockResult);
-
-      const response = await dataSource.create(mockParams);
-
-      expect(mockPool.query).toHaveBeenCalledWith(
-        expect.objectContaining({
-          text: expect.stringContaining('INSERT INTO reports'),
-          values: [
-            mockParams.email,
-            mockParams.idCidadeOrigem,
-            mockParams.idCidadeDestino,
-            mockParams.idCid,
-            mockDate,
-          ],
-        })
-      );
-      expect(response).toBeInstanceOf(Report);
-      expect(response).toMatchObject(mockResult['rows'][0]);
+      });
     });
   });
 });
