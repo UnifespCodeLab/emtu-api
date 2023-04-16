@@ -1,14 +1,16 @@
 import { Router } from "express";
-import { cityRoutes } from "./city.routes";
-import { cidsRoutes } from "./cids.routes";
-import { userRoutes } from "./user.routes";
 import { busRoutes } from './bus.routes';
+import { cidsRoutes } from "./cids.routes";
+import { cityRoutes } from "./city.routes";
+import { reportsRoutes } from "./reports.routes";
+import { userRoutes } from "./user.routes";
 
 const router = Router();
 
-router.use("/city", cityRoutes);
-router.use("/cids", cidsRoutes);
-router.use("/user", userRoutes);
 router.use("/bus", busRoutes);
+router.use("/cids", cidsRoutes);
+router.use("/city", cityRoutes);
+router.use("/reports", reportsRoutes);
+router.use("/user", userRoutes);
 
 export { router }
