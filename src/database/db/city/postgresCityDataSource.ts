@@ -13,12 +13,7 @@ export class PostgresCityDataSource implements cityDataSource {
   async getAll(): Promise<CityDto[]> {
     const result = await this.dataBase.query(`SELECT * FROM city c;`);
     return PostgresCityDataSource.mapResultToModel(result);
-  };
-
-  async getById(cityId: number): Promise<CityDto> {
-    const result = await this.dataBase.query(`SELECT * FROM city c WHERE c.id = ${cityId} LIMIT 1`);
-    return { id: result.rows[0]?.id, name: result.rows[0]?.name}
-  };
+  }
   
   private static mapResultToModel = (result: QueryResult): CityDto[] => result.rows.map((row) => ({ id: row.id, name: row.name}))
 } 
