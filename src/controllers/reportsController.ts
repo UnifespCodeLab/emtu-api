@@ -11,13 +11,13 @@ export default class ReportsController {
 
       const report = await reportsDataSource.create({ email, idCidadeOrigem, idCidadeDestino, idCid });
 
-      res.status(201).json({ mesagem: 'Report criado com sucesso', report });
+      res.status(201).json({ message: 'Solicitação criada com sucesso', report });
     } catch (error) {
       if (error instanceof InvalidParamError) {
-        return res.status(400).send({ erro: error.message });
+        return res.status(400).send({ message: error.message });
       }
 
-      return res.status(500).send({ erro: 'Falha no servidor ao criar report' });
+      return res.status(500).send({ message: 'Um erro inesperado aconteceu no processamento da solicitação' });
     }
   }
 }

@@ -59,7 +59,7 @@ describe('ReportsController', () => {
 
       expect(response.status).toBe(201);
       expect(createMock).toHaveBeenCalledTimes(1);
-      expect(response.body).toEqual({ mesagem: 'Report criado com sucesso', report });
+      expect(response.body).toEqual({ message: 'Solicitação criada com sucesso', report });
     });
   });
 });
