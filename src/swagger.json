@@ -394,6 +394,120 @@
           }
         }
       }
+    },
+    "/searches": {
+      "post": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "Endpoint para salvar as rotas buscadas",
+        "description": "Salva uma nova busca de rota realizada no banco de dados",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idCidadeOrigem": {
+                    "type": "number"
+                  },
+                  "idCidadeDestino": {
+                    "type": "number"
+                  },
+                  "idCid": {
+                    "type": "number",
+                    "optional": true
+                  },
+                  "dataViagem": {
+                    "type": "string",
+                    "optional": true
+                  },
+                  "horaViagem": {
+                    "type": "string",
+                    "optional": true
+                  }
+                },
+                "example": {
+                  "idCidadeOrigem": 1,
+                  "idCidadeDestino": 2,
+                  "idCid": 3,
+                  "dataViagem": "2023-01-15",
+                  "horaViagem": "11:00"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Rota buscada salva com sucesso no banco de dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "routeSearch": {
+                      "type": "object"
+                    }
+                  },
+                  "example": {
+                    "message": "Rota buscada salva com sucesso",
+                    "routeSearch": {
+                      "id": 4,
+                      "id_cidade_origem": 1,
+                      "id_cidade_destino": 2,
+                      "id_cid": 3,
+                      "data_viagem": "2023-10-03T03:00:00.000Z",
+                      "hora_viagem": "09:25",
+                      "data_criacao": "2023-04-18T16:32:26.883Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha no servidor não mapeada ao tentar salvar a rota buscada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Um erro inesperado aconteceu ao tentar salvar a rota buscada"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Não foram enviados todos os parâmetros obrigatórios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Parâmetros obrigatórios não informados: idCidadeOrigem,idCidadeDestino"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
