@@ -32,4 +32,32 @@ export class PostgresRouteSearchDataSource implements IRouteSearchDataSource {
 
     return rows[0];
   };
+
+  async findBy({ idCidadeOrigem, idCidadeDestino, idCid, dataInicio, dataFim }): Promise<RouteSearchDto[]> {
+    const baseQuery = ' SELECT * FROM searches s ';
+    const filters = [];
+
+    if (idCidadeOrigem) filters.push(`s.id_cidade_origem = ${idCidadeOrigem}`);
+    if (idCidadeDestino) filters.push(`s.id_cidade_destino = ${idCidadeDestino}`);
+    if (idCid) filters.push(`s.id_cid = ${idCid}`);
+    if (dataInicio) filters.push(`date(s.data_criacao) >= '${dataInicio}'`);
+    if (dataFim) filters.push(`date(s.data_criacao) <= '${dataFim}'`);
+
+    const whereClause = filters.length ? `WHERE ${filters.join(' AND ')}` : '';
+    const query = baseQuery + whereClause;
+
+    const { rows } = await this.dataBase.query(query);
+
+    return this.mapResultToModel(rows);
+  }
+
+  private mapResultToModel = (rows: any[]): RouteSearchDto[] => (
+    rows.map(row => ({
+      id: row.id,
+      idCidadeOrigem: row.id_cidade_origem,
+      idCidadeDestino: row.id_cidade_destino,
+      idCid: row.id_cid,
+      dataCriacao: row.data_criacao
+    }))
+  )
 }
