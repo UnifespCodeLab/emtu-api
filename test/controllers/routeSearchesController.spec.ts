@@ -59,7 +59,7 @@ describe('RouteSearchesController', () => {
 
       expect(response.status).toBe(201);
       expect(createMock).toHaveBeenCalledTimes(1);
-      expect(response.body).toEqual({ mesagem: 'Rota buscada salva com sucesso', routeSearch });
+      expect(response.body).toEqual({ message: 'Rota buscada salva com sucesso', routeSearch });
     });
   });
 });

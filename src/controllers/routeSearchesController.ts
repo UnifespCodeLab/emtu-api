@@ -10,13 +10,13 @@ export default class RouteSearchesController {
     try {
       const routeSearch = await routeSearchDataSource.create(req.body as RouteSearchDto);
 
-      res.status(201).json({ mesagem: 'Rota buscada salva com sucesso', routeSearch });
+      res.status(201).json({ message: 'Rota buscada salva com sucesso', routeSearch });
     } catch (error) {
       if (error instanceof InvalidParamError) {
-        return res.status(400).send({ erro: error.message });
+        return res.status(400).send({ message: error.message });
       }
 
-      return res.status(500).send({ erro: 'Um erro inesperado aconteceu ao tentar salvar a rota buscada' });
+      return res.status(500).send({ message: 'Um erro inesperado aconteceu ao tentar salvar a rota buscada' });
     }
   }
 }
