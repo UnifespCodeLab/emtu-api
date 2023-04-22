@@ -46,7 +46,7 @@ describe('RouteSearchesController', () => {
       expect(response.status).toBe(500);
     });
 
-    it('should return 201 when report is created', async () => {
+    it('should return 201 when route search is created', async () => {
       const routeSearch = { idCidadeOrigem: 1, idCidadeDestino: 2, idCid: 3, dataViagem: '2023-10-05', horaViagem: '12:48' };
       const createMock = jest.spyOn(PostgresRouteSearchDataSource.prototype, 'create');
 
