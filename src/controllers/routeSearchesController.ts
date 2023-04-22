@@ -1,21 +1,14 @@
 import { Request, Response } from "express";
 import { PostgresRouteSearchDataSource } from "../database/db/routeSearch/postgresRouteSearchDataSource";
 import { InvalidParamError } from "../errors/invalidParamError";
+import { RouteSearchDto } from "../dtos/routeSearchDto";
 
 const routeSearchDataSource = new PostgresRouteSearchDataSource();
 
 export default class RouteSearchesController {
   public static async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { idCidadeOrigem, idCidadeDestino, idCid, dataViagem, horaViagem } = req.body;
-
-      const routeSearch = await routeSearchDataSource.create({
-        idCidadeOrigem,
-        idCidadeDestino,
-        idCid,
-        dataViagem,
-        horaViagem,
-      });
+      const routeSearch = await routeSearchDataSource.create(req.body as RouteSearchDto);
 
       res.status(201).json({ mesagem: 'Rota buscada salva com sucesso', routeSearch });
     } catch (error) {
