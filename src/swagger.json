@@ -259,7 +259,7 @@
               }
             }
           },
-          "400": {
+          "400-invalid-params": {
             "description": "Parâmetros inválidos",
             "content": {
               "application/json": {
@@ -277,7 +277,7 @@
               }
             }
           },
-          "400": {
+          "400-missing-params": {
             "description": "Não foram enviados todos os parâmetros obrigatórios",
             "content": {
               "application/json": {
@@ -387,6 +387,166 @@
                   },
                   "example": {
                     "mensagem": "Erro ao obter cids"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reports": {
+      "post": {
+        "tags": [
+          "Report"
+        ],
+        "summary": "Endpoint para as solicitações de novas rotas com acessibilidade",
+        "description": "Cria um novo report no banco de dados",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "idCidadeOrigem": {
+                    "type": "number"
+                  },
+                  "idCidadeDestino": {
+                    "type": "number"
+                  },
+                  "idCid": {
+                    "type": "number"
+                  }
+                },
+                "example": {
+                  "email": "jose.email@email.com",
+                  "idCidadeOrigem": 1,
+                  "idCidadeDestino": 2,
+                  "idCid": 3
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Solicitação criada com sucesso no banco de dados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "report": {
+                      "type": "object"
+                    }
+                  },
+                  "example": {
+                    "message": "Solicitação criada com sucesso",
+                    "report": {
+                      "id": 13,
+                      "email": "thiago.leite@gmail.com",
+                      "id_cidade_origem": 10,
+                      "id_cidade_destino": 11,
+                      "id_cid": 1,
+                      "data_criacao": "2023-04-18T00:49:40.823Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Falha no servidor não mapeada ao tentar criar um report",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Um erro inesperado aconteceu no processamento da solicitação"
+                  }
+                }
+              }
+            }
+          },
+          "400-missing-params": {
+            "description": "Não foram enviados todos os parâmetros obrigatórios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Parâmetros obrigatórios não informados: email,idCid"
+                  }
+                }
+              }
+            }
+          },
+          "400-equal-cities": {
+            "description": "As cidades de origem e destino são iguais",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "As cidades de origem e destino não podem ser iguais"
+                  }
+                }
+              }
+            }
+          },
+          "400-invalid-email": {
+            "description": "E-mail informado é inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "E-mail informado é inválido: @email-invalido"
+                  }
+                }
+              }
+            }
+          },
+          "400-report-already-exists": {
+            "description": "Report com os parâmetros enviados já foi criado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "message": "Solicitação para esta rota já foi enviada"
                   }
                 }
               }
