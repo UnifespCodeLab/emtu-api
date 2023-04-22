@@ -5,10 +5,10 @@ import RouteSearchesController from '../../src/controllers/routeSearchesControll
 import { PostgresRouteSearchDataSource } from '../../src/database/db/routeSearch/postgresRouteSearchDataSource';
 import { InvalidParamError } from '../../src/errors/invalidParamError';
 
-const reportsRoutes = express();
+const routeSearchRoutes = express();
 
-reportsRoutes.use(bodyParser.json());
-reportsRoutes.post('/', RouteSearchesController.create);
+routeSearchRoutes.use(bodyParser.json());
+routeSearchRoutes.post('/', RouteSearchesController.create);
 
 jest.mock('../../src/database/db/routeSearch/postgresRouteSearchDataSource');
 
@@ -23,7 +23,7 @@ describe('RouteSearchesController', () => {
 
       createMock.mockRejectedValueOnce(new InvalidParamError('Message'));
 
-      const response = await request(reportsRoutes)
+      const response = await request(routeSearchRoutes)
         .post('/')
         .send({ idCidadeOrigem: null, idCidadeDestino: 2, idCid: 3, dataViagem: '2023-10-05', horaViagem: '12:48' })
         .set('Content-type', 'application/json')
@@ -37,7 +37,7 @@ describe('RouteSearchesController', () => {
 
       createMock.mockRejectedValueOnce(new Error('Message'));
 
-      const response = await request(reportsRoutes)
+      const response = await request(routeSearchRoutes)
         .post('/')
         .send({ idCidadeOrigem: 1, idCidadeDestino: 2, idCid: 3, dataViagem: '2023-10-05', horaViagem: '12:48' })
         .set('Content-type', 'application/json')
@@ -52,7 +52,7 @@ describe('RouteSearchesController', () => {
 
       createMock.mockResolvedValueOnce(routeSearch);
 
-      const response = await request(reportsRoutes)
+      const response = await request(routeSearchRoutes)
         .post('/')
         .send(routeSearch)
         .set('Content-type', 'application/json')
