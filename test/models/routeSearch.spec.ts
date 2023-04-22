@@ -1,7 +1,7 @@
 import RouteSearch from "../../src/models/routeSearch";
 
 describe('RouteSearch class', () => {
-  test('should create an instance of ReportSearch with the correct properties', () => {
+  test('should create an instance of RouteSearch with the correct properties', () => {
     const idCidadeOrigem = 1;
     const idCidadeDestino = 2;
     const idCid = 3;
