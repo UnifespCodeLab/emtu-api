@@ -1,4 +1,5 @@
 export type RouteSearchDto = {
+  id?: number,
   idCidadeOrigem: number,
   idCidadeDestino: number,
   idCid?: number
