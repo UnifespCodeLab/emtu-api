@@ -9,6 +9,7 @@ const routeSearchRoutes = express();
 
 routeSearchRoutes.use(bodyParser.json());
 routeSearchRoutes.post('/', RouteSearchesController.create);
+routeSearchRoutes.get('/', RouteSearchesController.findBy);
 
 jest.mock('../../src/database/db/routeSearch/postgresRouteSearchDataSource');
 
@@ -60,6 +61,42 @@ describe('RouteSearchesController', () => {
       expect(response.status).toBe(201);
       expect(createMock).toHaveBeenCalledTimes(1);
       expect(response.body).toEqual({ message: 'Rota buscada salva com sucesso', routeSearch });
+    });
+  });
+
+  describe('findby', () => {
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('should return 500 when query goes wrong', async () => {
+      const findByMock = jest.spyOn(PostgresRouteSearchDataSource.prototype, 'findBy');
+
+      findByMock.mockRejectedValueOnce(new Error('Message'));
+
+      const response = await request(routeSearchRoutes)
+        .get('/')
+        .send({})
+        .set('Content-type', 'application/json')
+
+      expect(findByMock).toHaveBeenCalledTimes(1);
+      expect(response.status).toBe(500);
+    });
+
+    it('should return 200 when query is successfully', async () => {
+      const routeSearches = [{ id: 99, idCidadeOrigem: 1, idCidadeDestino: 2, idCid: 3 }];
+      const findByMock = jest.spyOn(PostgresRouteSearchDataSource.prototype, 'findBy');
+
+      findByMock.mockResolvedValueOnce(routeSearches);
+
+      const response = await request(routeSearchRoutes)
+        .get('/')
+        .send({})
+        .set('Content-type', 'application/json')
+
+      expect(response.status).toBe(200);
+      expect(findByMock).toHaveBeenCalledTimes(1);
+      expect(response.body).toEqual({ searches: routeSearches });
     });
   });
 });

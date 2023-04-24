@@ -4,5 +4,6 @@ import routeSearchesController from './../controllers/routeSearchesController';
 const searchRoutes = Router();
 
 searchRoutes.post("/", routeSearchesController.create);
+searchRoutes.get("/", routeSearchesController.findBy);
 
 export { searchRoutes }

@@ -58,4 +58,90 @@ describe('PostgresRouteSearchDataSource', () => {
       });
     });
   });
+
+  describe('findBy', () => {
+    const expectedRows = [{ id: 1 }];
+
+    it('should return all searches if no filters are provided', async () => {
+      const expectedQuery = ' SELECT * FROM searches s ';
+
+      mockPool.query.mockResolvedValueOnce({ rows: [expectedRows] } as never);
+      await dataSource.findBy({} as any);
+
+      expect(mockPool.query).toHaveBeenCalledWith(expectedQuery);
+    });
+
+    it('should return searches filtered by idCidadeOrigem', async () => {
+      const expectedQuery = ' SELECT * FROM searches s WHERE s.id_cidade_origem = 1';
+      const filters = { idCidadeOrigem: 1 };
+
+      mockPool.query.mockResolvedValueOnce({ rows: [expectedRows] } as never);
+      await dataSource.findBy(filters as any);
+
+      expect(mockPool.query).toHaveBeenCalledWith(expectedQuery);
+    });
+
+    it('should return searches filtered by idCidadeDestino', async () => {
+      const expectedQuery = ' SELECT * FROM searches s WHERE s.id_cidade_destino = 1';
+      const filters = { idCidadeDestino: 1 };
+
+      mockPool.query.mockResolvedValueOnce({ rows: [expectedRows] } as never);
+      await dataSource.findBy(filters as any);
+
+      expect(mockPool.query).toHaveBeenCalledWith(expectedQuery);
+    });
+
+    it('should return searches filtered by idCid', async () => {
+      const expectedQuery = ' SELECT * FROM searches s WHERE s.id_cid = 1';
+      const filters = { idCid: 1 };
+
+      mockPool.query.mockResolvedValueOnce({ rows: [expectedRows] } as never);
+      await dataSource.findBy(filters as any);
+
+      expect(mockPool.query).toHaveBeenCalledWith(expectedQuery);
+    });
+
+    it('should return searches filtered by dataInicio', async () => {
+      const expectedQuery = ' SELECT * FROM searches s WHERE date(s.data_criacao) >= \'2022-01-01\'';
+      const filters = { dataInicio: '2022-01-01' };
+
+      mockPool.query.mockResolvedValueOnce({ rows: [expectedRows] } as never);
+      await dataSource.findBy(filters as any);
+
+      expect(mockPool.query).toHaveBeenCalledWith(expectedQuery);
+    });
+
+    it('should return searches filtered by dataFim', async () => {
+      const expectedQuery = ' SELECT * FROM searches s WHERE date(s.data_criacao) <= \'2022-01-01\'';
+      const filters = { dataFim: '2022-01-01' };
+
+      mockPool.query.mockResolvedValueOnce({ rows: [expectedRows] } as never);
+      await dataSource.findBy(filters as any);
+
+      expect(mockPool.query).toHaveBeenCalledWith(expectedQuery);
+    });
+
+    it('should return searches filtered by all filters', async () => {
+      const expectedQuery =
+        ' SELECT * FROM searches s' +
+        ' WHERE s.id_cidade_origem = 1' +
+        ' AND s.id_cidade_destino = 2' +
+        ' AND s.id_cid = 3' +
+        ' AND date(s.data_criacao) >= \'2022-01-01\'' +
+        ' AND date(s.data_criacao) <= \'2022-01-02\'';
+
+      const filters = {
+        idCidadeOrigem: 1,
+        idCidadeDestino: 2,
+        idCid: 3,
+        dataInicio: '2022-01-01',
+        dataFim: '2022-01-02'
+      };
+
+      mockPool.query.mockResolvedValueOnce({ rows: [expectedRows] } as never);
+      await dataSource.findBy(filters as any);
+
+      expect(mockPool.query).toHaveBeenCalledWith(expectedQuery);
+    });
+  });
 });
