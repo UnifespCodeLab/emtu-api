@@ -16,7 +16,7 @@ export class PostgresCityDataSource implements cityDataSource {
   };
 
   async getById(cityId: number): Promise<CityDto> {
-    const result = await this.dataBase.query(`SELECT * FROM city c WHERE c.id = ${cityId} LIMIT 1`);
+    const result = await this.dataBase.query(`SELECT * FROM city c WHERE c.id = $1 LIMIT 1`, [cityId]);
     return { id: result.rows[0]?.id, name: result.rows[0]?.name}
   };
   
