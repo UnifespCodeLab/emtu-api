@@ -15,13 +15,12 @@ export default class PostgresBusDataSource implements IBusDataSource {
       const result = await this.
       dataBase.query(
         `SELECT * FROM bus_routes WHERE 
-        route_name_start ilike '${origin}%'
-        AND route_name_end ilike '${destination}%'`
-      );
+        route_name_start ilike $1
+        AND route_name_end ilike $2 `
+      , [`${origin}%`, `${destination}%`]);
 
       return result.rowCount > 0 ? PostgresBusDataSource.mapResultToModel(result) : null;
     } catch (error) {
-      console.log(error.message);
       throw(error);
     }
   };

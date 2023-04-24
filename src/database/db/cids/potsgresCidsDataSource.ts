@@ -11,7 +11,7 @@ export class PostgresCidsDataSource implements cidsDataSource {
   }
 
   async getById(id: number): Promise<CidsDto> {
-    const result = await this.dataBase.query(`SELECT * FROM cids WHERE cids.id = ${id};`);
+    const result = await this.dataBase.query(`SELECT * FROM cids WHERE cids.id = $1;`, [id]);
     return PostgresCidsDataSource.mapResultToModel(result)[0];
   }
 
