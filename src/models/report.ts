@@ -22,13 +22,21 @@ export default class Report {
   }
 
   private static validateRequiredParams(params: ReportDto) {
-    const missingParams = ['email', 'idCidadeOrigem', 'idCidadeDestino', 'idCid'].filter(
-      requiredParam => !params[requiredParam]
-    );
+    const requiredParams = ['email', 'idCidadeOrigem', 'idCidadeDestino', 'idCid'];
+    const missingParams = requiredParams.filter(requiredParam => !params[requiredParam]);
 
     if (missingParams.length === 0) return;
 
-    throw new InvalidParamError(`Parâmetros obrigatórios não informados: ${missingParams}`);
+    const translatedParams = {
+      email: 'E-mail',
+      idCidadeOrigem: 'Cidade de origem',
+      idCidadeDestino: 'Cidade de destino',
+      idCid: 'CID'
+    };
+
+    const translatedMissingParams = missingParams.map(param => translatedParams[param]).join(', ');
+
+    throw new InvalidParamError(`Parâmetros obrigatórios não informados: ${translatedMissingParams}`);
   }
 
   private static validateEmail(email: string) {

@@ -492,7 +492,7 @@
                     }
                   },
                   "example": {
-                    "message": "Parâmetros obrigatórios não informados: email,idCid"
+                    "message": "Parâmetros obrigatórios não informados: E-mail, CID"
                   }
                 }
               }
@@ -660,7 +660,7 @@
                     }
                   },
                   "example": {
-                    "message": "Parâmetros obrigatórios não informados: idCidadeOrigem,idCidadeDestino"
+                    "message": "Parâmetros obrigatórios não informados: Cidade de origem, Cidade de destino"
                   }
                 }
               }
