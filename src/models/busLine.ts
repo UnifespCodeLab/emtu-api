@@ -52,9 +52,4 @@ export default class BusLine {
 
     return lineDetails;
   }
-
-  static getBusStop(lineRoutes: any): string[] {
-    let test = [];
-    return test;
-  }
 }
