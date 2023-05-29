@@ -11,9 +11,14 @@ export class VehicleRepository implements IVehicleRepository {
   }
 
   async getByPrefix(prefixArray: string[]): Promise<VehicleDto[]> {
+    console.log("prefixArray:",prefixArray);
+
     if (!prefixArray.length) return null;
 
     let vehicles = await this.vehicleDatasource.getByPrefix(prefixArray);
+
+    console.log("vehicles:",vehicles);
+
     const notFoundPrefixes = prefixArray.filter(prefix =>
       !vehicles.some(vehicle => vehicle.prefix === prefix)
     );
