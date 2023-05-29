@@ -62,6 +62,7 @@ export default class busController {
       await busController.checkRoutesAccessibility(lines, cid);
       return res.status(200).send(lines);
     } catch (error) {
+      console.log(error)
       return res.status(500).send({erro: "Ocorreu um erro ao obter a linha informada"});
     }
   }
