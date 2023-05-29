@@ -35,7 +35,7 @@ export default class busController {
     try {
       if(!req.body || Object.keys(req.body).length === 0)
         return res.status(400).send({erro: "Objeto enviado é inválido"});
-  
+
       const { originCityId, destinationCityId, data, hora, cid } = req.body;
       if(!originCityId || !destinationCityId)
         return res.status(400).send({erro: "Cidade de origem ou destino inválidos"});
@@ -51,17 +51,19 @@ export default class busController {
         return res.status(400).send({erro: "Rota não encontrada para as cidades informadas"});
 
       let routeIds = await getBusRoutesUseCase.execute(originCity.getName(), destinyCity.getName());
-      
+
       const [day, month, year] = data.split('/');
       const lines = await getLineUsecase.execute(
         routeIds,
         new Date(+year, +month - 1, +day),
          new Date('1/1/1999 ' + hora),
-        );    
+        );
 
       await busController.checkRoutesAccessibility(lines, cid);
       return res.status(200).send(lines);
     } catch (error) {
+      console.log(error);
+
       return res.status(500).send({erro: "Ocorreu um erro ao obter a linha informada"});
     }
   }
@@ -72,6 +74,6 @@ export default class busController {
       let line = lines[linePos];
       line.vehicle = await verifyAccessibilityUseCase.execute(line.prefix, cid);
 
-    } 
+    }
   }
 }
