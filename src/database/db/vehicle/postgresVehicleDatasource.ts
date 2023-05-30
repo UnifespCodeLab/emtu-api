@@ -15,7 +15,7 @@ export class PostgresVehicleDatasource implements IVehicleDatasource {
     if(!prefix.length) return null;
     const sql = `SELECT * FROM vehicles v WHERE v.prefix in ${setPlaceholders(prefix)};`; 
     const result = await this.dataBase.query(sql, prefix);
-    return result && result.rowCount > 0 ? PostgresVehicleDatasource.mapResultToModel(result) : null;
+    return result && result.rowCount > 0 ? PostgresVehicleDatasource.mapResultToModel(result) : [];
   }
 
   private static mapResultToModel = (result: QueryResult<VehicleDto>): VehicleDto[] => {
