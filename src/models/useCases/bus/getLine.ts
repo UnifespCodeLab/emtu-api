@@ -29,6 +29,7 @@ export default class GetLineUsecase implements IGetLine {
             origin: line.cidade_origem,
             destination: line.cidade_destino,
             lineHours: hours,
+            busStops: line.pontos,
             prefix: line.prefixo,
             vehicle: null,
           })

@@ -4,6 +4,7 @@ export default class BusLine {
   cidade_origem: string;
   cidade_destino: string;
   horarios: Date[];
+  pontos: string[];
   horariosdiasuteis: Date[];
   horariossabados: Date[];
   horariosdomingosferiados: Date[];
@@ -11,6 +12,7 @@ export default class BusLine {
 
   constructor(codigo: string,cidade_origem: string,cidade_destino: string,
     horarios: Date[],
+    pontos: string[],
     horariosdiasuteis: Date[],
     horariossabados: Date[],
     horariosdomingosferiados: Date[],
@@ -20,6 +22,7 @@ export default class BusLine {
     this.cidade_origem = cidade_origem;
     this.cidade_destino = cidade_destino;
     this.horarios = horarios;
+    this.pontos = pontos;
     this.horariosdiasuteis = horariosdiasuteis;
     this.horariossabados = horariossabados;
     this.horariosdomingosferiados = horariosdomingosferiados;
@@ -29,15 +32,19 @@ export default class BusLine {
   static fromJson(obj: any): BusLine[]{
     let lineDetails: BusLine[] = [];
     obj.map(route => {
+      let lines = route.data.linhas[0];
+      let lineRoutes = lines.rotas[0];
+
       let busLine = new BusLine(
-        route.data.linhas[0].codigo,
-        route.data.linhas[0].rotas[0].cidade,
-        route.data.linhas[0].rotas[0].destino,
-        route.data.linhas[0].rotas[0].horarios.split(',').map(hour => new Date('1/1/1999 ' + hour)),
-        route.data.linhas[0].rotas[0].horariosdiasuteis.split(',').map(hour => new Date('1/1/1999 ' + hour)),
-        route.data.linhas[0].rotas[0].horariossabados.split(',').map(hour => new Date('1/1/1999 ' + hour)),
-        route.data.linhas[0].rotas[0].horariosdomingosferiados.split(',').map(hour => new Date('1/1/1999 ' + hour)),
-        route.data.linhas[0].veiculos.map(veiculo => veiculo.prefixo)
+        lines.codigo,
+        lineRoutes.cidade,
+        lineRoutes.destino,
+        lineRoutes.horarios.split(',').map(hour => new Date('1/1/1999 ' + hour)),
+        lineRoutes.pontos,
+        lineRoutes.horariosdiasuteis.split(',').map(hour => new Date('1/1/1999 ' + hour)),
+        lineRoutes.horariossabados.split(',').map(hour => new Date('1/1/1999 ' + hour)),
+        lineRoutes.horariosdomingosferiados.split(',').map(hour => new Date('1/1/1999 ' + hour)),
+        lines.veiculos.map(veiculo => veiculo.prefixo)
         );
 
       lineDetails.push(busLine);
