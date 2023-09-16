@@ -13,6 +13,8 @@ COPY package*.json ./
 # Install application dependencies
 RUN yarn install
 
+RUN yarn global add ynpx
+
 # Copy the rest of the application code to the container
 COPY . .
 
