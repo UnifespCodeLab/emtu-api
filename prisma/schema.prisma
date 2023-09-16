@@ -9,3 +9,91 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Access {
+  id          String @id @default(uuid())
+  ip          String
+  data_acesso String
+  password    String
+
+  @@map("access")
+}
+
+model Cid {
+  id           String @id @default(uuid())
+  cod          String
+  diagnostic   String
+  observations String
+  companion    String
+  duration     Int
+  requirements String
+  group        String
+
+  @@map("cids")
+}
+
+model City {
+  id   String @id @default(uuid())
+  name String
+
+  @@map("cities")
+}
+
+model Group {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  @@map("groups")
+}
+
+model Reports {
+  id                String @id @default(uuid())
+  email             String
+  id_cidade_origem  Int
+  id_cidade_destino Int
+  id_cid            Int
+  data_criacao      String
+
+  @@map("reports")
+}
+
+model BusRoute {
+  id               String @id @default(uuid())
+  route_short_name String
+  route_name_start Int
+  route_name_end   Int
+  route_type       Int
+
+  @@map("bus_routes")
+}
+
+model Search {
+  id                String @id @default(uuid())
+  id_cidade_origem  Int
+  id_cidade_destino Int
+  id_cid            Int
+  data_viagem       String
+  hora_viagem       String
+  data_criacao      String
+
+  @@map("searches")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String
+  password String
+
+  @@map("users")
+}
+
+model Vehicle {
+  id     String @id @default(uuid())
+  prefix String
+  name   String
+  group  String
+
+  @@map("vehicles")
+}
