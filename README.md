@@ -71,3 +71,26 @@ https://github.com/UnifespCodeLab/emtu-api.git
 - Marque os revisores para que os mesmos recebam notificação e revisem o seu pr
 - Vincule a issue aberta com o seu pr
 - Corra pro abraço
+
+## Docker
+
+### 1 - Executando seed migration
+
+dentro da pasta do codelab-loader, execute:
+
+```bash
+docker compose up emtu-db
+```
+
+em outro terminal execute:
+
+```bash
+docker compose exec emtu-db bash
+cd /node_app/prisma
+/bin/bash seed.sh
+```
+
+## Atenção
+
+Ao executar duas vezes, a seed irá duplicar os dados e assim por diante
+Caso precise, entre no container da api e restaure o banco utilizando o prisma: `ynpx prisma migrate reset`
