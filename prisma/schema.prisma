@@ -19,14 +19,14 @@ model Access {
 }
 
 model Cid {
-  id           Int    @id @default(autoincrement())
-  cod          String
-  diagnostic   String
-  observations String
-  companion    String
-  duration     Int
-  requirements String
-  group        String
+  id           Int     @id @default(autoincrement())
+  cod          String?
+  diagnostic   String?
+  observations String?
+  companion    String?
+  duration     Int?
+  requirements String?
+  group        String?
 
   @@map("cids")
 }
