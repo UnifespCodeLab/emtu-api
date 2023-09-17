@@ -72,7 +72,7 @@ model Search {
   id_cidade_origem  Int
   id_cidade_destino Int
   id_cid            Int
-  id_linha          String
+  id_linha          String?
   sucedida          Boolean
   data_viagem       String
   hora_viagem       String
