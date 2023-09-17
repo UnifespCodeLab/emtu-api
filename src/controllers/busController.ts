@@ -57,7 +57,7 @@ export default class busController {
         throw({status: 400, message: "Rota não encontrada para as cidades informadas"})
 
       let routeIds = await getBusRoutesUseCase.execute(originCity.getName(), destinyCity.getName());
-      
+
       const [day, month, year] = data.split('/');
       const lines = await getLineUsecase.execute(
         routeIds,
@@ -78,19 +78,33 @@ export default class busController {
   }
 
   static async saveRouteSearch(body, routes:BusRoute[], lines:BusLineDto[]) {
-    const { originCityId, destinationCityId, data, hora, cid } = body;
+    const { originCityId, destinationCityId, data, hora, cid } = body
     
-    let searchBody: RouteSearchDto[] = [];
-    routes.forEach(route => searchBody.push({
-      idCidadeOrigem: originCityId,
-      idCidadeDestino: destinationCityId,
-      idCid: cid,
-      idLinha: route.routeShortName,
-      sucedida: Boolean(lines.find(line => line.code == route.routeShortName)),
-      dataViagem: data,
-      horaViagem: hora,
-      dataCriacao: new Date()
-    }))
+    let searchBody: RouteSearchDto[] = []
+    const currentDate = new Date()
+
+    if (routes && routes.length) {
+      routes.forEach(route => searchBody.push({
+        idCidadeOrigem: originCityId,
+        idCidadeDestino: destinationCityId,
+        idCid: cid,
+        idLinha: route.routeShortName,
+        sucedida: Boolean(lines.find(line => line.code == route.routeShortName)),
+        dataViagem: data,
+        horaViagem: hora,
+        dataCriacao: currentDate
+      }))
+    } else {
+      searchBody.push({
+        idCidadeOrigem: originCityId,
+        idCidadeDestino: destinationCityId,
+        idCid: cid,
+        sucedida: false,
+        dataViagem: data,
+        horaViagem: hora,
+        dataCriacao: currentDate
+      })
+    }
 
     try {
       searchBody.forEach(async item => 
