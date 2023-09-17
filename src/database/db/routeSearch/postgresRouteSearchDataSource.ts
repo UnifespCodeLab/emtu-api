@@ -14,17 +14,18 @@ export class PostgresRouteSearchDataSource implements IRouteSearchDataSource {
   async create(params: RouteSearchDto): Promise<RouteSearch> {
     await RouteSearch.validate(params);
 
-    const dataCriacao = new Date();
     const query = {
-      text: `INSERT INTO searches(id_cidade_origem, id_cidade_destino, id_cid, data_viagem, hora_viagem, data_criacao)
-        VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      text: `INSERT INTO searches(id_cidade_origem, id_cidade_destino, id_cid, id_linha, sucedida, data_viagem, hora_viagem, data_criacao)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
       values: [
         params.idCidadeOrigem,
         params.idCidadeDestino,
         params.idCid,
+        params.idLinha,
+        params.sucedida,
         params.dataViagem,
         params.horaViagem,
-        dataCriacao
+        params.dataCriacao
       ],
     };
 
