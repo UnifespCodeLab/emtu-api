@@ -6,5 +6,13 @@ export type RouteSearchDto = {
   idCid: number,
   dataViagem: string,
   horaViagem: string,
-  dataCriacao: Date
+  dataCriacao: string
+};
+
+export type FindRouteSearchDto = {
+  origin?: number,
+  destination?: number,
+  startDate?: string,
+  endDate?: string,
+  line?: string
 };
