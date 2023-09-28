@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS bus_routes(id serial primary key,route_short_name varchar(50),route_name_start varchar(255) , route_name_end varchar(255),route_type int);
+-- CREATE TABLE IF NOT EXISTS bus_routes(id serial primary key,route_short_name varchar(50),route_name_start varchar(255) , route_name_end varchar(255),route_type int)
 
 insert into bus_routes(route_short_name,route_name_start,route_name_end,route_type) values
 ('001','ITAPECERICA DA SERRA (PARQUE PARAISO)','SAO PAULO (METRO CAPAO REDONDO)',3),
