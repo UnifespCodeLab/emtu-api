@@ -81,7 +81,7 @@ export default class busController {
     const { originCityId, destinationCityId, data, hora, cid } = body
     
     let searchBody: RouteSearchDto[] = []
-    const currentDate = new Date()
+    const currentDate = new Date().toISOString()
 
     if (routes && routes.length) {
       routes.forEach(route => searchBody.push({

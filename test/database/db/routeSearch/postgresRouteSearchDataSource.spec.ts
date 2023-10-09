@@ -27,7 +27,7 @@ describe('PostgresRouteSearchDataSource', () => {
       horaViagem: '10:25',
       idLinha: "001",
       sucedida: false,
-      dataCriacao: new Date()
+      dataCriacao: '2023-10-05'
     };
 
     it('should validate params before creating route search', async () => {
