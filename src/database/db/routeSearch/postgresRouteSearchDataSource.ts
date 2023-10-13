@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { RouteSearchDto, FindRouteSearchDto } from "../../../dtos/routeSearchDto";
+import { RouteSearchDto, FindRouteSearchDto, RankingSearchDto } from "../../../dtos/routeSearchDto";
 import { InvalidParamError } from "../../../errors/invalidParamError";
 import IRouteSearchDataSource from "../../interfaces/routeSearchDataSource";
 import PostgresDB from "../postgresDB";
@@ -70,6 +70,36 @@ export class PostgresRouteSearchDataSource implements IRouteSearchDataSource {
     const whereClause = queryFilters.join(' AND ');
 
     const query = `SELECT * FROM searches WHERE ${whereClause}`;
+
+    const { rows } = await this.dataBase.query(query);
+
+    return PostgresRouteSearchDataSource.mapResultToModel(rows);
+  };
+
+  async getRanking(params: RankingSearchDto): Promise<RouteSearchDto[]> {
+    const queryFilters: string[] = [];
+  
+    if (this.isParamFilled(params.sucedida)) {
+      queryFilters.push(`sucedida = '${params.sucedida}'`);
+    }
+
+    if (this.isParamFilled(params.idCid)) {
+      queryFilters.push(`id_cid = ${params.idCid}`);
+    }
+
+    if (this.isParamFilled(params.startDate)) {
+      queryFilters.push(`data_criacao::Date >= '${params.startDate}'::Date`);
+    }
+
+    if (this.isParamFilled(params.endDate)) {
+      queryFilters.push(`data_criacao::Date <= '${params.endDate}'::Date`);
+    }
+  
+    const whereClause = queryFilters.join(' AND ');
+    const limitFilter = this.isParamFilled(params.limite) ? 
+                        `LIMIT ${params.limite}` : "";
+
+    const query = `SELECT * FROM searches WHERE ${whereClause} ${limitFilter}`;
 
     const { rows } = await this.dataBase.query(query);
 

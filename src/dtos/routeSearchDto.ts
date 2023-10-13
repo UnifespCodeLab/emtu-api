@@ -16,3 +16,11 @@ export type FindRouteSearchDto = {
   endDate?: string,
   line?: string
 };
+
+export type RankingSearchDto = {
+  sucedida?: boolean,
+  startDate?: string,
+  endDate?: string,
+  idCid?: number,
+  limite?: number
+};
