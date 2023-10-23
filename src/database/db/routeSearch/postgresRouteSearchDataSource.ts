@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { RouteSearchDto, FindRouteSearchDto, RankingSearchDto } from "../../../dtos/routeSearchDto";
+import { RouteSearchDto, FindRouteSearchDto, RankingSearchDto, RankingResultDto } from "../../../dtos/routeSearchDto";
 import { InvalidParamError } from "../../../errors/invalidParamError";
 import IRouteSearchDataSource from "../../interfaces/routeSearchDataSource";
 import PostgresDB from "../postgresDB";
@@ -76,7 +76,7 @@ export class PostgresRouteSearchDataSource implements IRouteSearchDataSource {
     return PostgresRouteSearchDataSource.mapResultToModel(rows);
   };
 
-  async getRanking(params: RankingSearchDto): Promise<RouteSearchDto[]> {
+  async getRanking(params: RankingSearchDto): Promise<RankingResultDto[]> {
     const queryFilters: string[] = [];
   
     if (this.isParamFilled(params.sucedida)) {
@@ -99,11 +99,19 @@ export class PostgresRouteSearchDataSource implements IRouteSearchDataSource {
     const limitFilter = this.isParamFilled(params.limite) ? 
                         `LIMIT ${params.limite}` : "";
 
-    const query = `SELECT * FROM searches WHERE ${whereClause} ${limitFilter}`;
+    const query = `SELECT id_linha, count(*) as qtd_buscas
+                  FROM searches 
+                  WHERE ${whereClause} 
+                  GROUP BY id_linha 
+                  ORDER BY count(*)
+                  ${limitFilter}`;
 
     const { rows } = await this.dataBase.query(query);
 
-    return PostgresRouteSearchDataSource.mapResultToModel(rows);
+    return rows.map((row) => ({
+      idLinha: row.id_linha,
+      searchCount: row.qtd_buscas
+    }));
   };
 
   isParamFilled(param: any) {

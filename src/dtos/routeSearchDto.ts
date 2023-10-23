@@ -24,3 +24,8 @@ export type RankingSearchDto = {
   idCid?: number,
   limite?: number
 };
+
+export type RankingResultDto = {
+  idLinha: string,
+  searchCount: number
+};
