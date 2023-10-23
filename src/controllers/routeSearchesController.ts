@@ -11,9 +11,9 @@ export default class RouteSearchesController {
       const routeSearch = req.query as FindRouteSearchDto;
       RouteSearchesController.validateSearchParams(routeSearch);
 
-      const routeSearches = await routeSearchDataSource.get(routeSearch);
+      const data = await routeSearchDataSource.get(routeSearch);
 
-      res.status(200).send({ routeSearches });
+      res.status(200).send({ data });
     } catch (error) {
       console.log(error)
       if (error instanceof InvalidParamError) {
@@ -29,9 +29,9 @@ export default class RouteSearchesController {
       const rankingSearch = req.query as RankingSearchDto;
       RouteSearchesController.validateSearchParams(rankingSearch as FindRouteSearchDto);
 
-      const routeSearches = await routeSearchDataSource.getRanking(rankingSearch);
+      const data = await routeSearchDataSource.getRanking(rankingSearch);
 
-      res.status(200).send({ routeSearches });
+      res.status(200).send({ data });
     } catch (error) {
       console.log(error)
       if (error instanceof InvalidParamError) {

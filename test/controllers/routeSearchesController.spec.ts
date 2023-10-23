@@ -3,7 +3,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import RouteSearchesController from '../../src/controllers/routeSearchesController';
 import { PostgresRouteSearchDataSource } from '../../src/database/db/routeSearch/postgresRouteSearchDataSource';
-import { InvalidParamError } from '../../src/errors/invalidParamError';
 
 const routeSearchRoutes = express();
 
@@ -44,7 +43,7 @@ describe('RouteSearchesController', () => {
 
       expect(response.status).toBe(200);
       expect(createMock).toHaveBeenCalledTimes(1);
-      expect(response.body).toEqual({ routeSearches: result });
+      expect(response.body).toEqual({ data: result });
     });
 
     it('should return 400 when param is invalid', async () => {
