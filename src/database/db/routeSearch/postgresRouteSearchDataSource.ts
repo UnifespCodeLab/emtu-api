@@ -103,7 +103,7 @@ export class PostgresRouteSearchDataSource implements IRouteSearchDataSource {
                   FROM searches 
                   WHERE ${whereClause} 
                   GROUP BY id_linha 
-                  ORDER BY count(*)
+                  ORDER BY count(*) desc
                   ${limitFilter}`;
 
     const { rows } = await this.dataBase.query(query);
