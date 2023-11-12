@@ -94,15 +94,7 @@ export class PostgresReportsDataSource implements IReportsDataSource {
 
     const { rows } = await this.dataBase.query(query);
 
-    console.log(rows);
-
     return rows
-
-
-    // return rows.map((row) => ({
-    //   idLinha: row.id_linha,
-    //   searchCount: row.qtd_buscas
-    // }));
   };
 
   private isParamFilled(param: any) {
