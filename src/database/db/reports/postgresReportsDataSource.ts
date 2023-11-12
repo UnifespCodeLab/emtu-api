@@ -4,6 +4,7 @@ import { InvalidParamError } from "../../../errors/invalidParamError";
 import Report from "../../../models/report";
 import IReportsDataSource from "../../interfaces/reportsDataSource";
 import PostgresDB from "../postgresDB";
+import { ReportsRequestDto, ReportsResponseDto} from "../../../dtos/reportDto";
 
 export class PostgresReportsDataSource implements IReportsDataSource {
   private dataBase: Pool;
@@ -58,4 +59,53 @@ export class PostgresReportsDataSource implements IReportsDataSource {
 
     return rowCount > 0;
   };
+
+  async getReports(params: ReportsRequestDto): Promise<ReportsResponseDto[]> {
+    const queryFilters: string[] = [];
+
+    if (this.isParamFilled(params.email)) {
+      queryFilters.push(`email = '${params.email}'`);
+    }
+
+    if (this.isParamFilled(params.destination)) {
+      queryFilters.push(`id_cidade_destino = ${params.destination}`);
+    }
+
+    if (this.isParamFilled(params.origin)) {
+      queryFilters.push(`id_cidade_origem = ${params.origin}`);
+    }
+
+    if (this.isParamFilled(params.startDate)) {
+      queryFilters.push(`data_criacao::Date >= '${params.startDate}'::Date`);
+    }
+
+    if (this.isParamFilled(params.endDate)) {
+      queryFilters.push(`data_criacao::Date <= '${params.endDate}'::Date`);
+    }
+
+    const whereClause = queryFilters.join(' AND ');
+    const limitFilter = this.isParamFilled(params.limit) ?
+                        `LIMIT ${params.limit}` : "";
+
+    const query = `SELECT *
+                  FROM reports
+                  WHERE ${whereClause}
+                  ${limitFilter}`;
+
+    const { rows } = await this.dataBase.query(query);
+
+    console.log(rows);
+
+    return rows
+
+
+    // return rows.map((row) => ({
+    //   idLinha: row.id_linha,
+    //   searchCount: row.qtd_buscas
+    // }));
+  };
+
+  private isParamFilled(param: any) {
+    return param !== null && param !== undefined && param !== ''
+  }
 }
