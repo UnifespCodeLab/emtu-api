@@ -67,6 +67,10 @@ export class PostgresReportsDataSource implements IReportsDataSource {
       queryFilters.push(`email = '${params.email}'`);
     }
 
+    if (this.isParamFilled(params.idCid)) {
+      queryFilters.push(`id_cid = ${params.idCid}`);
+    }
+
     if (this.isParamFilled(params.destination)) {
       queryFilters.push(`id_cidade_destino = ${params.destination}`);
     }

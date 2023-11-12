@@ -36,7 +36,7 @@ export default class ReportsController {
         return res.status(400).send({ message: error.message });
       }
 
-      return res.status(500).send({ message: 'Um erro inesperado aconteceu ao obter o ranking das linhas' });
+      return res.status(500).send({ message: 'Um erro ao obter reports' });
     }
   }
 
