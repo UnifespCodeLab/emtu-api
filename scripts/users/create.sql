@@ -3,5 +3,3 @@ create table users (
  	password varchar(255),
  	name varchar(255)
 );
-
-select * from users u

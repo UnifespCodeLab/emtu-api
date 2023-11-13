@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "start": "sls offline start",
-    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
-    "test": "jest --watch"
+    "dev": "ts-node-dev --inspect=0.0.0.0:9229 --transpile-only --ignore-watch node_modules --exit-child src/server.ts",
+    "test": "jest --watch",
+    "debug": "ts-node-dev --inspect=0.0.0.0:9229 --exit-child src/server.ts"
   },
   "devDependencies": {
     "@middy/core": "^2.2.0",
@@ -22,6 +23,7 @@
     "uuid": "^3.3.2"
   },
   "dependencies": {
+    "@prisma/client": "^4.10.1",
     "@types/aws-lambda": "8.10.1",
     "@types/bcrypt": "^5.0.0",
     "@types/dotenv": "^8.2.0",
@@ -41,6 +43,7 @@
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
     "pg": "^8.8.0",
+    "prisma": "^4.10.1",
     "serverless": "^3.22.0",
     "serverless-dynamodb-local": "^1.0.2",
     "serverless-offline": "^12.0.4",
@@ -49,6 +52,7 @@
     "swagger-ui-express": "^4.6.0",
     "ts-loader": "^4.2.0",
     "typescript": "^4.7.4",
-    "webpack": "^4.5.0"
+    "webpack": "^4.5.0",
+    "ynpx": "^2.1.6"
   }
 }

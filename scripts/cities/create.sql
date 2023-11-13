@@ -1,4 +1,4 @@
-create table city(id serial primary key, name varchar (50) not null)
+create table city(id serial primary key, name varchar (50) not null);
 
 insert into public.city(name) values
 ('Alambari'),

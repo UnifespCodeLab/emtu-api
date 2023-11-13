@@ -24,7 +24,10 @@ describe('PostgresRouteSearchDataSource', () => {
       idCidadeDestino: 2,
       idCid: 3,
       dataViagem: '2023-10-05',
-      horaViagem: '10:25'
+      horaViagem: '10:25',
+      idLinha: "001",
+      sucedida: false,
+      dataCriacao: '2023-10-05'
     };
 
     it('should validate params before creating route search', async () => {
@@ -36,10 +39,7 @@ describe('PostgresRouteSearchDataSource', () => {
     });
 
     it('should insert new route search if params are valid', async () => {
-      const currentDate = new Date();
-      jest.spyOn(global, 'Date').mockImplementation(() => currentDate as any);
-
-      const expectedRouteSearch = { ...params, id: 1, dataCriacao: currentDate };
+      const expectedRouteSearch = { ...params, id: 1 };
       mockPool.query.mockResolvedValueOnce({ rows: [expectedRouteSearch] } as never);
 
       const createdRouteSearch = await dataSource.create(params);
@@ -51,9 +51,11 @@ describe('PostgresRouteSearchDataSource', () => {
           params.idCidadeOrigem,
           params.idCidadeDestino,
           params.idCid,
+          params.idLinha,
+          params.sucedida,
           params.dataViagem,
           params.horaViagem,
-          currentDate,
+          params.dataCriacao,
         ],
       });
     });
