@@ -1,6 +1,6 @@
 import { RouteSearchDto } from "../../dtos/routeSearchDto";
-import RouteSearch from "../../models/routeSearch";
+// import RouteSearch from "../../models/routeSearch";
 
 export default interface IRouteSearchDataSource {
-  create(params: RouteSearchDto): Promise<RouteSearch>;
+  create(params: RouteSearchDto): Promise<any>;
 }
