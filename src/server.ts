@@ -17,4 +17,6 @@ app.get("/", (req, res) => {
   return res.json({message: "EMTU-API"});
 })
 
-app.listen(3333, () => console.log("server is running on port 3333"));
+const port = process.env.PORT;
+
+app.listen(port, () => console.log("server is running on port 3333"));
