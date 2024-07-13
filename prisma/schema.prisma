@@ -27,6 +27,7 @@ model Cid {
   duration     Int?
   requirements String?
   group        String?
+  slugdiagnostic String?
 
   @@map("cids")
 }

@@ -18,6 +18,7 @@ CREATE TABLE "cids" (
     "duration" INTEGER NOT NULL,
     "requirements" TEXT NOT NULL,
     "group" TEXT NOT NULL,
+    "slugdiagnostic" TEXT NOT NULL,
 
     CONSTRAINT "cids_pkey" PRIMARY KEY ("id")
 );

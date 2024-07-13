@@ -12,6 +12,7 @@ CREATE TABLE public.cids (
 	duration int4 NULL,
 	requirements varchar(128) NULL,
 	"group" varchar(50) NULL,
+	slugdiagnostic varchar(128) NULL,
 	id serial4 NOT NULL,
 	CONSTRAINT cids_pkey PRIMARY KEY (id)
 );
