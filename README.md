@@ -86,7 +86,7 @@ em outro terminal execute:
 
 ```bash
 docker compose exec emtu-db bash
-cd /node_app/prisma
+cd /emtu/prisma
 /bin/bash seed.sh
 ```
 
