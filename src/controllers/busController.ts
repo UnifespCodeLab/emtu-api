@@ -57,14 +57,18 @@ export default class busController {
         throw({status: 400, message: "Rota não encontrada para as cidades informadas"})
 
       let routeIds = await getBusRoutesUseCase.execute(originCity.getName(), destinyCity.getName());
+      if (routeIds == null){
+        routeIds = await getBusRoutesUseCase.execute(destinyCity.getName() , originCity.getName() );
+      }
 
       const [day, month, year] = data.split('/');
       const lines = await getLineUsecase.execute(
         routeIds,
         new Date(+year, +month - 1, +day),
          new Date('1/1/1999 ' + hora),
+         originCity.getName(),
+         destinyCity.getName()
         );    
-
       await busController.checkRoutesAccessibility(lines, cid);
       return {routeIds, lines}
     } catch (error) {
@@ -127,7 +131,6 @@ export default class busController {
     catch(error) {
       return res.status(error.status).send({erro: error.message});
     }
-
     await busController.saveRouteSearch(req.body, routeIds, lines)
 
     return res.status(200).send(lines);

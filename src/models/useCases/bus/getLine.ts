@@ -10,14 +10,14 @@ export default class GetLineUsecase implements IGetLine {
     this.getBusRoutesRepository = getBusRoutesRepository;
   }
   getBusRoutesRepository: IBusRepository;
-  async execute(busRoute: BusRoute[], date: Date, hour: Date): Promise<BusLineDto[]> {
+  async execute(busRoute: BusRoute[], date: Date, hour: Date, originCity: string, destinyCity : string): Promise<BusLineDto[]> {
     try {
       let routes = await this.getBusRoutesRepository.getLines(busRoute);
       let lineDetails: BusLine[];
       let lines: BusLineDto[] = [];
       if (routes == null) return lines;
 
-      lineDetails = BusLine.fromJson(routes);
+      lineDetails = BusLine.fromJson(routes, originCity, destinyCity);
 
       const dayOfWeek = date.getDay();
       
@@ -34,7 +34,6 @@ export default class GetLineUsecase implements IGetLine {
             vehicle: null,
           })
         }
-
       });
 
       return lines;
