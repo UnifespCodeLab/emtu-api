@@ -61,7 +61,7 @@ export default class busController {
         routeIds = await getBusRoutesUseCase.execute(destinyCity.getName() , originCity.getName() );
       }
 
-      const [day, month, year] = data.split('/');
+      const [year, month, day] = data.split('-');
       const lines = await getLineUsecase.execute(
         routeIds,
         new Date(+year, +month - 1, +day),
@@ -132,7 +132,7 @@ export default class busController {
       return res.status(error.status).send({erro: error.message});
     }
     await busController.saveRouteSearch(req.body, routeIds, lines)
-
+    
     return res.status(200).send(lines);
   }
 
