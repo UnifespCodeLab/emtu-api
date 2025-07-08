@@ -1,96 +1,146 @@
-# emtu-api
+# EMTU Acessível - API
 
-Back-end da aplicação EMTU Acessível
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 1 - Clonando o repositório
+API para o projeto [EMTU Acessível](https://github.com/UnifespCodeLab/emtu-app), uma iniciativa para fornecer informações de acessibilidade sobre as linhas de ônibus da EMTU.
 
-```
-https://github.com/UnifespCodeLab/emtu-api.git
-```
+## 📜 Sobre
 
-## 2 - Requisitos
+Este repositório contém o back-end da aplicação. A API é responsável por gerenciar os dados de linhas de ônibus, veículos, cidades, e fornecer os endpoints necessários para o aplicativo móvel.
 
-### 2.1 - Obrigatórios
+## ✨ Tecnologias
 
-- [yarn](https://yarnpkg.com/)
-- [git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Express](https://expressjs.com/pt-br/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Prisma](https://www.prisma.io/)
+- [Docker](https://www.docker.com/)
+- [Jest](https://jestjs.io/)
 
-### 2.2 - Opcionais
+## 📋 Pré-requisitos
 
-- [docker](https://www.docker.com/)
-- [docker-compose](https://docs.docker.com/compose/)
-- [postgres](https://www.postgresql.org/) (caso não for usar o docker)
+Antes de começar, você vai precisar ter instalado em sua máquina:
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en/) (v19.x ou superior)
+- [Yarn](https://yarnpkg.com/) (v1.22.x ou superior)
+- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/) (Recomendado)
 
-## 3 - Setup
+---
 
-### 3.1 - Ambiente
+## 🚀 Rodando o Projeto (Recomendado com Docker)
 
-- Crie um novo arquivo `.env`
-- Copie o conteúdo do arquivo `.env.sample` para o `.env`
+Este é o método mais simples para configurar e rodar o ambiente de desenvolvimento.
 
-### 3.2 - Subindo o banco de dados
-
-#### 3.2.1 - Com docker
-
-- Abra o terminal na pasta do projeto e execute os seguintes comandos :
-
-  - `docker compose up postgres`
-
-#### 3.2.2 - Sem docker
-
-- instale o postgres13 em sua máquina e crie um banco com nome `postgres` e senha `1234`
-
-### 3.3 - Instalando dependências
-
-- Abra outro terminal e execute:
-
-  - `yarn install`
-
-- <b>Atenção</b>: No momento que estou escrevendo essa doc o yarn está nessa versão: `1.22.19` e o node `19.8.1`
-
-## 4 - Executando o projeto
-
-- Em um terminal aberto na pasta do projeto execute:
-  - `yarn run dev`
-- Após o console deve imprimir na tela a seguinte mensagem:
-  - `server is running on port 3333`
-- Para acessar um rota de testes é possível acessar:
-  - `http://localhost:3333/api-docs/`
-
-## 5 - Sobre o fluxo de desenvolvimento
-
-- (opcional) Dê uma olhada em como funcionam os [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/)
-- Vá até o board do github e encontre o [_emtu-api_](https://github.com/orgs/UnifespCodeLab/projects/5/views/1)
-- Encontre a issue desejada
-- Atribua a si mesmo
-- Mude para a coluna _In Progress_
-- Com o projeto já clonado em sua pasta desejada, crie uma branch baseada no que está fazendo. Por exemplo:
-  - `git checkout -b issue-10`
-- Uma boa prática é sempre deixar seus commits o mais '_atômicos_' possível
-- Quando todo o desenvolvimento estiver finalizado abra um [pull request](https://github.com/UnifespCodeLab/emtu-api/compare). Lembrando precisa ser nesse sentido: `base: main` <- `compare: issue-10`
-- Marque os revisores para que os mesmos recebam notificação e revisem o seu pr
-- Vincule a issue aberta com o seu pr
-- Corra pro abraço
-
-## Docker
-
-### 1 - Executando seed migration
-
-dentro da pasta do codelab-loader, execute:
+### 1. Clone o Repositório
 
 ```bash
-docker compose up emtu-db
+git clone https://github.com/UnifespCodeLab/emtu-api.git
+cd emtu-api
 ```
 
-em outro terminal execute:
+### 2. Configure as Variáveis de Ambiente
+
+Crie uma cópia do arquivo de exemplo `.env.sample` e renomeie para `.env`.
 
 ```bash
-docker compose exec emtu-db bash
-cd /emtu/prisma
-/bin/bash seed.sh
+cp .env.sample .env
+```
+*O arquivo `.env` já vem com os valores padrão para o ambiente Docker.*
+
+### 3. Suba os Containers
+
+Com o Docker em execução, suba o container do banco de dados PostgreSQL.
+
+```bash
+docker compose up -d postgres
 ```
 
-## Atenção
+### 4. Instale as Dependências
 
-Ao executar duas vezes, a seed irá duplicar os dados e assim por diante
-Caso precise, entre no container da api e restaure o banco utilizando o prisma: `ynpx prisma migrate reset`
+Instale todas as dependências do projeto com o Yarn.
+
+```bash
+yarn install
+```
+
+### 5. Rode as Migrations e Seeds
+
+Para criar as tabelas e popular o banco de dados com os dados iniciais, execute os seguintes comandos:
+
+```bash
+# Aplica as migrations do Prisma
+yarn prisma migrate dev
+
+# Popula o banco com os dados iniciais
+sh prisma/seed.sh
+```
+**Atenção:** O script `seed.sh` não deve ser executado mais de uma vez, pois pode duplicar os dados. Caso precise resetar o banco, use `yarn prisma migrate reset`.
+
+### 6. Execute a Aplicação
+
+Agora, inicie o servidor de desenvolvimento:
+
+```bash
+yarn run dev
+```
+
+O servidor estará em execução em `http://localhost:3333`. Você pode acessar a documentação da API em `http://localhost:3333/api-docs/`.
+
+---
+
+## 🔧 Rodando o Projeto (Manualmente)
+
+Caso não queira usar o Docker, siga os passos abaixo.
+
+### 1. Clone o Repositório e Instale as Dependências
+
+```bash
+git clone https://github.com/UnifespCodeLab/emtu-api.git
+cd emtu-api
+yarn install
+```
+
+### 2. Configure o Banco de Dados PostgreSQL
+
+- Instale o [PostgreSQL](https://www.postgresql.org/download/) (versão 13 ou superior).
+- Crie um banco de dados.
+- Configure as variáveis de ambiente no arquivo `.env` com os dados de conexão do seu banco (usuário, senha, nome do banco, etc.).
+
+### 3. Rode as Migrations e Seeds
+
+Execute os comandos para preparar o banco de dados:
+
+```bash
+# Aplica as migrations do Prisma
+yarn prisma migrate dev
+
+# Popula o banco com os dados iniciais
+sh prisma/seed.sh
+```
+
+### 4. Execute a Aplicação
+
+```bash
+yarn run dev
+```
+O servidor estará em execução em `http://localhost:3333`.
+
+---
+
+## ⚙️ Scripts Disponíveis
+
+- `yarn dev`: Inicia o servidor em modo de desenvolvimento.
+- `yarn start`: Inicia o servidor em modo de produção (requer build).
+- `yarn test`: Executa os testes com Jest.
+- `yarn postinstall`: Executa o build do projeto (compila TypeScript para JavaScript).
+
+## 🤝 Fluxo de Contribuição
+
+1.  Dê uma olhada em como funcionam os [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
+2.  Vá até o [board do projeto no GitHub](https://github.com/orgs/UnifespCodeLab/projects/5/views/1).
+3.  Encontre uma `issue` para trabalhar, atribua a si mesmo e mova para a coluna "In Progress".
+4.  Crie uma nova branch a partir da `main`: `git checkout -b feature/nome-da-feature` ou `fix/nome-do-fix`.
+5.  Faça commits "atômicos" e com mensagens claras.
+6.  Ao finalizar, abra um Pull Request (PR) para a branch `main`.
+7.  Marque os revisores e vincule a `issue` ao seu PR.
