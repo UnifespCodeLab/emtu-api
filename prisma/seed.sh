@@ -1,8 +1,4 @@
 #!/bin/sh
-# -e Exit immediately when a command returns a non-zero status.
-# -x Print commands before they are executed
-set -ex
-
 # Set password for psql to connect to the database container
 export PGPASSWORD=1234
 

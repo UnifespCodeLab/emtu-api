@@ -1,6 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:16
-
+FROM node:19
 # Yarn is already included in the node:16 image
 
 # Install netcat and postgresql-client

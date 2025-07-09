@@ -11,5 +11,8 @@ echo "PostgreSQL iniciado"
 npx prisma migrate deploy
 sh prisma/seed.sh
 
+# Compila o código TypeScript
+npx tsc
+
 # Inicia a aplicação
 npm start
