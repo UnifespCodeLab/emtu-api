@@ -85,7 +85,7 @@ Agora, inicie o servidor de desenvolvimento:
 yarn run dev
 ```
 
-O servidor estará em execução em `http://localhost:3333`. Você pode acessar a documentação da API em `http://localhost:3333/api-docs/`.
+O servidor estará em execução em `http://localhost:3000`. Você pode acessar a documentação da API em `http://localhost:3/api-docs/`.
 
 ---
 
