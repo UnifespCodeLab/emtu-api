@@ -20,6 +20,19 @@ export class PostgresCidsDataSource implements cidsDataSource {
     return PostgresCidsDataSource.mapResultToModel(result);
   }
 
+  async findByIds(ids: number[]): Promise<CidsDto[]> {
+    if (!ids || ids.length === 0) {
+      return [];
+    }
+    
+    const placeholders = ids.map((_, index) => `$${index + 1}`).join(', ');
+    const result = await this.dataBase.query(
+      `SELECT * FROM cids WHERE cids.id IN (${placeholders});`, 
+      ids
+    );
+    return PostgresCidsDataSource.mapResultToModel(result);
+  }
+
   private static mapResultToModel = (result: QueryResult): CidsDto[] => result.rows.map((row) => {
     return(
       {

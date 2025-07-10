@@ -16,4 +16,8 @@ export default class CidsRepository implements ICidsRepository {
   async getAll() : Promise<CidsDto[]> {
     return await this.cidsDataSource.getAll();
   }
+
+  async findByIds(ids: number[]): Promise<CidsDto[]> {
+    return await this.cidsDataSource.findByIds(ids);
+  }
 }
