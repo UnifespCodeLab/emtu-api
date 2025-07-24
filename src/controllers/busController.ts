@@ -17,6 +17,7 @@ import { BusLineDto } from "../dtos/busLineDto";
 import { RouteSearchDto } from "../dtos/routeSearchDto";
 import { PostgresRouteSearchDataSource } from "../database/db/routeSearch/postgresRouteSearchDataSource";
 import BusRoute from "../models/busRoute";
+import { getPrimaryAdaption } from "../utils/cidUtils";
 
 const cityDataSource = new PostgresCityDataSource();
 const cityRepository = new CityRepository(cityDataSource);
@@ -47,7 +48,7 @@ export default class busController {
       if(originCityId < 1 || originCityId > 134 || destinationCityId < 1 || destinationCityId > 134)
         throw({status: 400, message: "Cidade de origem ou destino inválidos"})
       
-       if(!cid || cid <= 0)
+      if(!cid || (Array.isArray(cid) && cid.length === 0) || (!Array.isArray(cid) && cid <= 0))
         throw({status: 400, message: "CID inválido"})
 
       let originCity = await getCityByIdUseCase.execute(originCityId);
@@ -69,8 +70,10 @@ export default class busController {
          originCity.getName(),
          destinyCity.getName()
         );    
-      await busController.checkRoutesAccessibility(lines, cid);
-      return {routeIds, lines}
+      
+      const primaryCid = await busController.getPrimaryCid(cid);
+      await busController.checkRoutesAccessibility(lines, primaryCid);
+      return {routeIds, lines, primaryCid, allCids: Array.isArray(cid) ? cid : [cid]}
     } catch (error) {
       if (error.status) {
         throw(error)
@@ -81,33 +84,57 @@ export default class busController {
     }
   }
 
+  static async getPrimaryCid(cid): Promise<number> {
+    // Se é só um CID, retorna ele diretamente
+    if (!Array.isArray(cid)) {
+      return cid;
+    }
+    
+    // Se múltiplos CIDs, seleciona o com maior grau de adaptação
+    try {
+      const primaryCid = await getPrimaryAdaption.execute(cid);
+      return primaryCid;
+    } catch (error) {
+      console.log("Error getting primary CID:", error);
+      return cid[0];
+    }
+  }
+
   static async saveRouteSearch(body, routes:BusRoute[], lines:BusLineDto[]) {
     const { originCityId, destinationCityId, data, hora, cid } = body
     
     let searchBody: RouteSearchDto[] = []
     const currentDate = new Date().toISOString()
 
+    const cidsToSave = Array.isArray(cid) ? cid : [cid];
+
     if (routes && routes.length) {
-      routes.forEach(route => searchBody.push({
-        idCidadeOrigem: originCityId,
-        idCidadeDestino: destinationCityId,
-        idCid: cid,
-        idLinha: route.routeShortName,
-        sucedida: Boolean(lines.find(line => line.code == route.routeShortName)),
-        dataViagem: data,
-        horaViagem: hora,
-        dataCriacao: currentDate
-      }))
+      routes.forEach(route => {
+        cidsToSave.forEach(cidValue => {
+          searchBody.push({
+            idCidadeOrigem: originCityId,
+            idCidadeDestino: destinationCityId,
+            idCid: cidValue,
+            idLinha: route.routeShortName,
+            sucedida: Boolean(lines.find(line => line.code == route.routeShortName)),
+            dataViagem: data,
+            horaViagem: hora,
+            dataCriacao: currentDate
+          });
+        });
+      });
     } else {
-      searchBody.push({
-        idCidadeOrigem: originCityId,
-        idCidadeDestino: destinationCityId,
-        idCid: cid,
-        sucedida: false,
-        dataViagem: data,
-        horaViagem: hora,
-        dataCriacao: currentDate
-      })
+      cidsToSave.forEach(cidValue => {
+        searchBody.push({
+          idCidadeOrigem: originCityId,
+          idCidadeDestino: destinationCityId,
+          idCid: cidValue,
+          sucedida: false,
+          dataViagem: data,
+          horaViagem: hora,
+          dataCriacao: currentDate
+        });
+      });
     }
 
     try {
@@ -121,19 +148,29 @@ export default class busController {
   }
 
   public static async getRoutes(req:Request<busRouteDTO>, res:Response) {
-    let routeIds, lines
+    let routeIds, lines, primaryCid, allCids
     
     try {
       const result = await busController.getBusRoutes(req.body)
       routeIds = result.routeIds
       lines = result.lines
+      primaryCid = result.primaryCid
+      allCids = result.allCids
     }
     catch(error) {
       return res.status(error.status).send({erro: error.message});
     }
     await busController.saveRouteSearch(req.body, routeIds, lines)
     
-    return res.status(200).send(lines);
+    return res.status(200).send({
+      lines,
+      primaryCid,
+      allCids,
+      cidInfo: {
+        totalCids: allCids.length,
+        primaryCidUsed: primaryCid
+      }
+    });
   }
 
   static async checkRoutesAccessibility(lines: BusLineDto[], cid: number) : Promise<void> {
