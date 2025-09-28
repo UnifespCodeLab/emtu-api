@@ -7,7 +7,8 @@
     "start": "node dist/src/server.js",
     "dev": "ts-node-dev --inspect=0.0.0.0:9229 --transpile-only --ignore-watch node_modules --exit-child src/server.ts",
     "test": "jest --watch",
-    "debug": "ts-node-dev --inspect=0.0.0.0:9229 --exit-child src/server.ts"
+    "debug": "ts-node-dev --inspect=0.0.0.0:9229 --exit-child src/server.ts",
+    "test-connection": "node scripts/test-connection.js"
   },
   "devDependencies": {
     "@middy/core": "^2.2.0",

@@ -25,6 +25,8 @@ services:
       - postgres
     networks:
       - postgres
+    volumes:
+      - api_data:/data
   
   # pgadmin:
   #   container_name: pgadmin_container
@@ -47,5 +49,6 @@ networks:
     driver: bridge
 
 volumes:
-    postgres:
+  postgres:
+  api_data:
     # pgadmin:
