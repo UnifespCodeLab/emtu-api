@@ -138,7 +138,7 @@ O servidor estará em execução em `http://localhost:3333`.
 ## 🤝 Fluxo de Contribuição
 
 1.  Dê uma olhada em como funcionam os [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
-2.  Vá até o [board do projeto no GitHub](https://github.com/orgs/UnifespCodeLab/projects/5/views/1).
+2.  Vá até o [board do projeto no GitHub](https://github.com/orgs/UnifespCodeLab/projects/15/views/1).
 3.  Encontre uma `issue` para trabalhar, atribua a si mesmo e mova para a coluna "In Progress".
 4.  Crie uma nova branch a partir da `main`: `git checkout -b feature/nome-da-feature` ou `fix/nome-do-fix`.
 5.  Faça commits "atômicos" e com mensagens claras.
