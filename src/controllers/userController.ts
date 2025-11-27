@@ -90,4 +90,121 @@ export default class UserController {
     }
   }
 
+  public static async getAll(req: Request, res: Response): Promise<Response> {
+    try {
+      const users = await userDataSource.getAll();
+
+      if(!users) {
+        return res.status(404).send({
+          erro: "Nenhum usuário encontrado"
+        });
+      }
+
+      const usersWithoutPassword = users.map(user => ({
+        id: user.id,
+        name: user.name,
+        email: user.email
+      }));
+
+      return res.status(200).json(usersWithoutPassword);
+
+    } catch (error) {
+      return res.status(500).send({
+        erro: "Falha ao buscar usuários"
+      });
+    }
+  }
+
+  public static async getUserById(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      if(!id) {
+        return res.status(400).send({
+          erro: "ID não informado"
+        });
+      }
+
+      const user = await userDataSource.getById(id);
+
+      if(!user) {
+        return res.status(404).send({
+          erro: "Usuário não encontrado"
+        });
+      }
+
+      const userWithoutPassword = {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      };
+
+      return res.status(200).json(userWithoutPassword);
+
+    } catch (error) {
+      return res.status(500).send({
+        erro: "Falha ao buscar usuário"
+      });
+    }
+  }
+
+  public static async update(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+      const { name, email, password } = req.body;
+
+      if(!id) {
+        return res.status(400).send({
+          erro: "ID não informado"
+        });
+      }
+
+      const userExists = await userDataSource.getById(id);
+
+      if(!userExists) {
+        return res.status(404).send({
+          erro: "Usuário não encontrado"
+        });
+      }
+
+      if(email && email !== userExists.email) {
+        const emailInUse = await userDataSource.getByEmail(email);
+        if(emailInUse && emailInUse.id !== id) {
+          return res.status(409).send({
+            erro: "Email já está em uso"
+          });
+        }
+      }
+
+      const updatedName = name || userExists.name;
+      const updatedEmail = email || userExists.email;
+      let updatedPassword = password ? await passwordEncrypter.encrypt(password) : userExists.password;
+
+      const updatedUser = new User(updatedName, updatedEmail, updatedPassword);
+      updatedUser.id = id;
+
+      const updateSuccess = await userDataSource.update(updatedUser);
+
+      if(!updateSuccess) {
+        return res.status(500).send({
+          erro: "Falha ao atualizar usuário"
+        });
+      }
+
+      return res.status(200).json({
+        mensagem: "Usuário atualizado com sucesso",
+        usuario: {
+          id: updatedUser.id,
+          name: updatedUser.name,
+          email: updatedUser.email
+        }
+      });
+
+    } catch (error) {
+      return res.status(500).send({
+        erro: "Falha ao atualizar usuário"
+      });
+    }
+  }
+
 }
