@@ -8,7 +8,7 @@ const accessDataSource = new PostgresAccessDataSource();
 export default class AccessController {
   public static async trackAccess(req: Request, res: Response): Promise<Response> {
     try {
-      const ip = req.body.ip || 
+      const ip = req.ip || 
                  req.headers['x-forwarded-for'] as string || 
                  req.connection.remoteAddress || 
                  'unknown';
