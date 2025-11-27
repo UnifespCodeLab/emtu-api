@@ -5,6 +5,7 @@ import { cityRoutes } from "./city.routes";
 import { reportsRoutes } from "./reports.routes";
 import { searchRoutes } from './search.routes';
 import { userRoutes } from "./user.routes";
+import { accessRoutes } from "./access.routes";
 
 const router = express.Router();
 
@@ -14,6 +15,7 @@ router.use("/city", cityRoutes);
 router.use("/reports", reportsRoutes);
 router.use("/searches", searchRoutes);
 router.use("/user", userRoutes);
+router.use("/access", accessRoutes);
 
 // Health check endpoint
 router.get('/health', (req, res) => {
