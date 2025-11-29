@@ -207,4 +207,40 @@ export default class UserController {
     }
   }
 
+  public static async delete(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      if(!id) {
+        return res.status(400).send({
+          erro: "ID não informado"
+        });
+      }
+
+      const userExists = await userDataSource.getById(id);
+
+      if(!userExists) {
+        return res.status(404).send({
+          erro: "Usuário não encontrado"
+        });
+      }
+
+      const deleteSuccess = await userDataSource.delete(id);
+
+      if(!deleteSuccess) {
+        return res.status(500).send({
+          erro: "Falha ao excluir usuário"
+        });
+      }
+
+      return res.status(200).json({
+        mensagem: "Usuário excluído com sucesso"
+      });
+
+    } catch (error) {
+      return res.status(500).send({
+        erro: "Falha ao excluir usuário"
+      });
+    }
+  }
 }
