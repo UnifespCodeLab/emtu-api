@@ -42,6 +42,14 @@ export class PostgresUserDataSource implements IUserDataSource {
     return result && result.rowCount > 0;
   }
 
+  async delete(id: string): Promise<boolean> {
+    const result = await this.dataBase.query(
+      `DELETE FROM users WHERE id = $1`,
+      [id]
+    );
+    return result && result.rowCount > 0;
+  }
+
   private static mapResultToModel = (result: QueryResult<UserDto>): User[] => {
     return result ? result.rows.map(
       (row) => {
